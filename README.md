@@ -42,7 +42,7 @@ Download from site: https://sqlite.org/index.html and install it<br/>
 
 After the Application Boots run the installed SQLite<br/>
 from the SQLite command line<br/>
-sqlite> attach database ':memory:' as vadb; <br/>
+sqlite> attach database as va.db; <br/>
 
 
 

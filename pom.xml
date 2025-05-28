@@ -125,13 +125,13 @@
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
-            <version>3.18.0</version>
+            <version>3.49.1.0</version>
         </dependency>
-    	<dependency>
-        	<groupId>com.github.gwenn</groupId>
-        	<artifactId>sqlite-dialect</artifactId>
-        	<version>0.1.1</version>
-    	</dependency>				
+        <dependency>
+    		<groupId>com.github.gwenn</groupId>
+    		<artifactId>sqlite-dialect</artifactId>
+    		<version>0.2.0</version>
+		</dependency>        
 		
     	
 <!-- Needed for the Docker Plugin -->

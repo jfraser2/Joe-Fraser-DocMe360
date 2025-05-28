@@ -55,7 +55,7 @@ public class PersistenceJpaConfig
 	 
 	    HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 	    vendorAdapter.setShowSql(true);
-	    vendorAdapter.setGenerateDdl(true);
+	    vendorAdapter.setGenerateDdl(false);
 	    vendorAdapter.setPrepareConnection(true); // hibernate 5.1 or 5.2
 	    
 	    emfb.setJpaProperties(additionalProperties());
@@ -97,15 +97,16 @@ public class PersistenceJpaConfig
 	private Properties additionalProperties()
 	{
 	    Properties properties = new Properties();
-	    properties.setProperty("hibernate.ddl-auto", "create-drop");
+	    properties.setProperty("hibernate.ddl-auto", "none");
+//	    properties.setProperty("hibernate.ddl-auto", "create-drop");
 //	    properties.setProperty("hibernate.ddl-auto", "update");
 	    properties.setProperty("hibernate.dialect", "org.sqlite.hibernate.dialect.SQLiteDialect");
 	    properties.setProperty("hibernate.current_session_context_class", "thread");
 //	    <prop key="hibernate.current_session_context_class">org.hibernate.context.ThreadLocalSessionContext</prop>
 	    properties.setProperty("hibernate.format_sql", "true");
 	    properties.setProperty("hibernate.show_sql", "true");
+//	    properties.setProperty("hibernate.connection.foreign_keys", "1");
 	    properties.setProperty("hibernate.connection.release_mode", "after_transaction");
-	    
 	        
 	    return properties;
 	}
@@ -120,7 +121,7 @@ public class PersistenceJpaConfig
 		
 		/* cheating for now in memory database */
 		
-		String connectString = "jdbc:sqlite:memory:vadb";
+		String connectString = "jdbc:sqlite:va.db";
 		String userName = "sa"; // also try SA, with no password, initial h2
 		String password = "sa"; // initial SQLite
 		String driverClass = "org.sqlite.JDBC";
@@ -153,7 +154,8 @@ public class PersistenceJpaConfig
         p.setMinIdle(1);
         p.setLogAbandoned(true);
         p.setRemoveAbandoned(true);
-		 
+//        p.setInitSQL("PRAGMA foreign_keys = true;");
+ 		 
 		DataSource aDataSource = null;
 		
 		try {
