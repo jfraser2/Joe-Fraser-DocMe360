@@ -38,10 +38,14 @@ It is now working, and tested<br/>
 you cannot use the command until DockerDesktop is running
 
 #SQLite 
-Download from site: https://sqlite.org/index.html and install it<br/>
+Download the sqlite-tools-win-x64-3490200.zip from site: https://sqlite.org/index.html and install it<br/>
+Then run sqlite3.exe and create the va.db database as per the requirements.md document<br/>
+The requirements say to make two tables Notifications and Templates joined by a foreign key<br/>
+You should be able to use the files from the databaseScripts folder to help<br/>
 
-After the Application Boots run the installed SQLite<br/>
-from the SQLite command line<br/>
+the Application will only work if SQLite is running<br/>
+
+Example SQLite command line<br/>
 sqlite> attach database as va.db; <br/>
 
 

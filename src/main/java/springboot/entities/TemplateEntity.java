@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name = "Template", schema = "public")
+@Table(name = "Templates", schema = "public")
 @Entity
 public class TemplateEntity {
 	

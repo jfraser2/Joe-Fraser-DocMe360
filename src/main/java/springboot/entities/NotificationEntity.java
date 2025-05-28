@@ -2,7 +2,7 @@ package springboot.entities;
 
 import javax.persistence.*;
 
-@Table(name = "Notification", schema = "public")
+@Table(name = "Notifications", schema = "public")
 @Entity
 public class NotificationEntity {
 	
