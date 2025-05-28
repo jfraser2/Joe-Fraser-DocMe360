@@ -61,7 +61,7 @@ public class PersistenceJpaConfig
 	    emfb.setJpaProperties(additionalProperties());
 	    emfb.setJpaVendorAdapter(vendorAdapter);
 	    emfb.setValidationMode(ValidationMode.NONE); // Needed for H2 to work in Docker
-	    emfb.setPersistenceUnitName("SeleniumAssessmentPU");
+	    emfb.setPersistenceUnitName("VaAssessmentPU");
 
 	    
 	    return emfb;
@@ -69,7 +69,7 @@ public class PersistenceJpaConfig
 	
 	@Bean(name="pooledDataSource")
 	public DataSource dataSource(){
-    	String appName = "SeleniumAssessment";
+    	String appName = "VA-assessment";
     	
 		DataSource aDataSource = buildTomcatPooledDataSource();
 //		System.out.println("in PersistenceJpaConfig AppName: " + appName + " env is: " + env.getActiveProfiles()[0]);
@@ -130,7 +130,7 @@ public class PersistenceJpaConfig
 		PoolProperties p = new PoolProperties();
 		
 		p.setDefaultAutoCommit(false);
-		p.setDefaultTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+		p.setDefaultTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 		
         p.setUrl(connectString);
         p.setUsername(userName);
