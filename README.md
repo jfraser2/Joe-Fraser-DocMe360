@@ -38,9 +38,9 @@ It is now working, and tested<br/>
 you cannot use the command until DockerDesktop is running
 
 #SQLite 
-Download from site: https://sqlite.org/index.html<br/>
-install and run<br/>
+Download from site: https://sqlite.org/index.html and install it<br/>
 
+After the Application Boots run the installed SQLite<br/>
 from the SQLite command line<br/>
 sqlite> attach database ':memory:' as vadb; <br/>
 
