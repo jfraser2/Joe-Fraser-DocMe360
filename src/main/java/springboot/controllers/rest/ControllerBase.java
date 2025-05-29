@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import springboot.autowire.helpers.StringBuilderContainer;
 import springboot.enums.MapperEnum;
@@ -25,7 +26,7 @@ public abstract class ControllerBase
 		try {
 			if (null != anObjectList && anObjectList.size() > 0)
 			{
-				Gson gson = new Gson();
+				Gson gson = new GsonBuilder().serializeNulls().create();
 				jsonString = gson.toJson(anObjectList);
 			}
 		}

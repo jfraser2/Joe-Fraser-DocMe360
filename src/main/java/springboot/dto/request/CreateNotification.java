@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 
 public class CreateNotification {
 	@NotBlank(message = "Notification phone number must not be blank")
-	@Pattern(regexp = "^((\\\\(\\\\d{3}\\\\))|\\\\d{3})[- .]?\\\\d{3}[- .]?\\\\d{4}$", message = "Invalid Phone Number Format.")
+	@Pattern(regexp = "^\\d{3}[- .]?\\d{3}[- .]?\\d{4}$", message = "Invalid Phone Number Format.")
 	@Size(max = 20, message="Max Length is 20 characters")
 	private String phoneNumber;
 	
