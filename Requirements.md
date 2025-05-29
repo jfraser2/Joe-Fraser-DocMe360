@@ -64,7 +64,7 @@ Example:
 
 Notification "personalization" = "Bob"
 
-Template "body" = "Hello, (peronsal). How are you today, (personal)?"
+Template "body" = "Hello, (personal). How are you today, (personal)?"
 
 GET /notification/:id response "content" attribute = "Hello, Bob. How are you today, Bob?"
 

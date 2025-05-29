@@ -21,8 +21,8 @@ import springboot.services.interfaces.Notification;
 public class NotificationImpl
 	implements Notification
 {
-	private static final String SUBSTITUTION_TEXT = "(peronsal)";
-	private static final String REGEX_SUBSTITUTION_TEXT = "\\(peronsal\\)";
+	private static final String SUBSTITUTION_TEXT = "(personal)";
+	private static final String REGEX_SUBSTITUTION_TEXT = "\\(personal\\)";
 	
 	@Autowired
 	private NotificationRepository notificationRepository;
