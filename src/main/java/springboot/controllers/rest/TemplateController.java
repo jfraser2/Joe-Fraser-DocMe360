@@ -87,7 +87,12 @@ public class TemplateController
 	{
 		
 		List<TemplateEntity> aList = templateService.findAll();
-		if(null == aList) {
+		boolean isEmpty = true;
+		if(null != aList && aList.size() > 0) {
+			isEmpty = false;
+		}
+		
+		if (isEmpty) {
 			throw new IllegalArgumentException("Template Table is empty.");
 		}
 		

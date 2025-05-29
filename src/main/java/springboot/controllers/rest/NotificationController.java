@@ -94,7 +94,12 @@ public class NotificationController
 	{
 		
 		List<NotificationEntity> aList = notificationService.findAll();
-		if(null == aList) {
+		boolean isEmpty = true;
+		if(null != aList && aList.size() > 0) {
+			isEmpty = false;
+		}
+		
+		if(isEmpty) {
 			throw new IllegalArgumentException("Notification Table is empty.");
 		}
 		

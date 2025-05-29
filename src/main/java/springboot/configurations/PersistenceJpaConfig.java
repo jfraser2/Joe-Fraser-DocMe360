@@ -55,8 +55,9 @@ public class PersistenceJpaConfig
 	 
 	    HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 	    vendorAdapter.setShowSql(true);
-	    vendorAdapter.setGenerateDdl(false);
+	    vendorAdapter.setGenerateDdl(true);
 	    vendorAdapter.setPrepareConnection(true); // hibernate 5.1 or 5.2
+	    vendorAdapter.setDatabasePlatform("org.sqlite.hibernate.dialect.SQLiteDialect");
 	    
 	    emfb.setJpaProperties(additionalProperties());
 	    emfb.setJpaVendorAdapter(vendorAdapter);
@@ -97,8 +98,8 @@ public class PersistenceJpaConfig
 	private Properties additionalProperties()
 	{
 	    Properties properties = new Properties();
-	    properties.setProperty("hibernate.ddl-auto", "none");
-//	    properties.setProperty("hibernate.ddl-auto", "create-drop");
+//	    properties.setProperty("hibernate.ddl-auto", "none");
+	    properties.setProperty("hibernate.ddl-auto", "create-drop");
 //	    properties.setProperty("hibernate.ddl-auto", "update");
 	    properties.setProperty("hibernate.dialect", "org.sqlite.hibernate.dialect.SQLiteDialect");
 	    properties.setProperty("hibernate.current_session_context_class", "thread");
