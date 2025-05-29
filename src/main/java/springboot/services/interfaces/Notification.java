@@ -4,6 +4,7 @@ import java.util.List;
 
 import springboot.dto.request.CreateNotification;
 import springboot.entities.NotificationEntity;
+import springboot.errorHandling.helpers.ApiValidationError;
 
 public interface Notification {
 	
@@ -15,4 +16,6 @@ public interface Notification {
 	public boolean validateTemplateFields(CreateNotification createNotificationRequest);
 	public NotificationEntity buildNotificationEntity(CreateNotification createNotificationRequest);
 	public NotificationEntity persistData(NotificationEntity notificationEntity);
+	
+	public List<ApiValidationError> generateTemplateFieldsError(CreateNotification createNotificationRequest);
 }

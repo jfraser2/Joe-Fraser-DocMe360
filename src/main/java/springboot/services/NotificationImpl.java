@@ -1,5 +1,6 @@
 package springboot.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import springboot.dto.request.CreateNotification;
 import springboot.entities.NotificationEntity;
 import springboot.entities.TemplateEntity;
+import springboot.errorHandling.helpers.ApiValidationError;
 import springboot.repositories.NotificationRepository;
 import springboot.repositories.TemplateRepository;
 import springboot.services.interfaces.Notification;
@@ -147,4 +149,18 @@ public class NotificationImpl
 		return retVar;
 	}
 
+	@Override
+	public List<ApiValidationError> generateTemplateFieldsError(CreateNotification createNotificationRequest) {
+		
+		List<ApiValidationError> retVar = new ArrayList<>();
+		
+		String objectName = createNotificationRequest.getClass().getSimpleName();
+		String message = "Either the templateId or the templateText must be populated.";
+		
+		ApiValidationError theError = new ApiValidationError(objectName, message);
+		retVar.add(theError);
+		
+		return retVar;
+	}
+	
 }
