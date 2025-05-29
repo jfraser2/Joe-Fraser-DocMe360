@@ -43,10 +43,11 @@ Then run sqlite3.exe and create the va.db database as per the requirements.md do
 The requirements say to make two tables Notifications and Templates joined by a foreign key<br/>
 You should be able to use the files from the databaseScripts folder to help<br/>
 
-the Application will only work if SQLite is running<br/>
+the Application will only work if SQLite is running.<br/>
+An example run from the windows shell would be:  sqlite3 va.db<br/>
 
-Example SQLite command line<br/>
-sqlite> attach database as va.db; <br/>
+Example SQLite command line to list all tables<br/>
+sqlite> .tables <br/>
 
 
 

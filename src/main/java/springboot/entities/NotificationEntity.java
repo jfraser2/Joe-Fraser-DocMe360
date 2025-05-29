@@ -2,12 +2,12 @@ package springboot.entities;
 
 import javax.persistence.*;
 
-@Table(name = "Notifications", schema = "public")
+@Table(name = "Notifications", schema = "main")
 @Entity
 public class NotificationEntity {
 	
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", columnDefinition = "int")
     private Long id;
 	

@@ -105,7 +105,7 @@ public class PersistenceJpaConfig
 //	    <prop key="hibernate.current_session_context_class">org.hibernate.context.ThreadLocalSessionContext</prop>
 	    properties.setProperty("hibernate.format_sql", "true");
 	    properties.setProperty("hibernate.show_sql", "true");
-//	    properties.setProperty("hibernate.connection.foreign_keys", "1");
+	    properties.setProperty("hibernate.jdbc.lob.non_contextual_creation", "true");
 	    properties.setProperty("hibernate.connection.release_mode", "after_transaction");
 	        
 	    return properties;
