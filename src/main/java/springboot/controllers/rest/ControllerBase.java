@@ -1,12 +1,14 @@
 package springboot.controllers.rest;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import org.springframework.http.HttpHeaders;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.google.gson.Gson;
 
 import springboot.autowire.helpers.StringBuilderContainer;
 import springboot.enums.MapperEnum;
@@ -15,6 +17,26 @@ public abstract class ControllerBase
 {
 	protected static final String GODD_RESPONSE_PREFIX = "{\"status\":\"OK\", \"modelData\":";
 	protected static final String GODD_RESPONSE_SUFFIX = "}";
+	
+	private String convertListToJson(List<Object> anObjectList)
+	{
+		String jsonString = null;
+		
+		try {
+			if (null != anObjectList && anObjectList.size() > 0)
+			{
+				Gson gson = new Gson();
+				jsonString = gson.toJson(anObjectList);
+			}
+		}
+		catch(Exception jpe)
+		{
+			jsonString = null;
+		}
+		
+		return jsonString;
+		
+	}
 	
 	private String convertToJson(Object anObject)
 	{
@@ -40,6 +62,21 @@ public abstract class ControllerBase
 	protected String goodResponse(Object anObject, StringBuilderContainer aContainer)
 	{
 		String jsonString = convertToJson(anObject);
+		
+		// Since it is Autowired clear the buffer before you use it
+		aContainer.clearStringBuffer();
+		StringBuilder aBuilder = aContainer.getStringBuilder();
+		
+		aBuilder.append(GODD_RESPONSE_PREFIX);
+		aBuilder.append(jsonString);
+		aBuilder.append(GODD_RESPONSE_SUFFIX);
+		
+		return aBuilder.toString();
+	}
+	
+	protected String goodResponseList(List<Object> anObject, StringBuilderContainer aContainer)
+	{
+		String jsonString = convertListToJson(anObject);
 		
 		// Since it is Autowired clear the buffer before you use it
 		aContainer.clearStringBuffer();

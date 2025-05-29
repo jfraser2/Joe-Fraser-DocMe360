@@ -17,26 +17,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-//import io.swagger.annotations.ApiImplicitParam;
 import springboot.autowire.helpers.StringBuilderContainer;
 import springboot.autowire.helpers.ValidationErrorContainer;
-import springboot.dto.request.CreateNotification;
+import springboot.dto.request.CreateTemplate;
 import springboot.dto.validation.exceptions.RequestValidationException;
-import springboot.entities.NotificationEntity;
+import springboot.entities.TemplateEntity;
 import springboot.errorHandling.helpers.ApiValidationError;
-import springboot.services.interfaces.Notification;
+import springboot.services.interfaces.Template;
 import springboot.services.interfaces.RequestValidation;
 
 @RestController
 @RequestMapping(path="/actions")
-public class NotificationController
+public class TemplateController
 	extends ControllerBase
 {
 	@Autowired
-	private Notification notificationService;
+	private Template templateService;
 	
 	@Autowired
-	private RequestValidation<CreateNotification> createNotificationValidation;
+	private RequestValidation<CreateTemplate> createTemplateValidation;
 	
 	@Autowired
 	@Qualifier("requestValidationErrorsContainer")
@@ -47,16 +46,16 @@ public class NotificationController
 	private StringBuilderContainer requestStringBuilderContainer;
 	
 	@RequestMapping(method = {RequestMethod.POST},
-			path = "/v1/createNotification",
+			path = "/v1/createTemplate",
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<Object> createNotification(@RequestBody CreateNotification data, HttpServletRequest request)
+	public ResponseEntity<Object> createTemplate(@RequestBody CreateTemplate data, HttpServletRequest request)
 		throws RequestValidationException, IllegalArgumentException, AccessDeniedException
 	{
 		
 		// single field validation
-		createNotificationValidation.validateRequest(data, requestValidationErrorsContainer, null);
+		createTemplateValidation.validateRequest(data, requestValidationErrorsContainer, null);
 		List<ApiValidationError> errorList = requestValidationErrorsContainer.getValidationErrorList();
 		
 		if (errorList.size() > 0)
@@ -65,17 +64,11 @@ public class NotificationController
 			throw new RequestValidationException(errorList);
 		}
 		
-		// multiple field validation
-		if(!notificationService.validateTemplateFields(data)) {
-			List<ApiValidationError> templateFieldsError = notificationService.generateTemplateFieldsError(data);
-			throw new RequestValidationException(templateFieldsError);
-		}
-		
-		NotificationEntity ne = notificationService.buildNotificationEntity(data);
-		NotificationEntity savedEntity = notificationService.persistData(ne);
+		TemplateEntity te = templateService.buildTemplateEntity(data);
+		TemplateEntity savedEntity = templateService.persistData(te);
 		
 		String jsonString = goodResponse(savedEntity, requestStringBuilderContainer);
-		ne = null;
+		te = null;
 		savedEntity = null;
 		
 		// support CORS
@@ -86,16 +79,16 @@ public class NotificationController
 	}
 	
 	@RequestMapping(method = {RequestMethod.GET},
-			path = "/v1/all/notifications",
+			path = "/v1/all/templates",
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<Object> allNotifications(HttpServletRequest request)
+	public ResponseEntity<Object> allTemplates(HttpServletRequest request)
 		throws RequestValidationException, IllegalArgumentException, AccessDeniedException
 	{
 		
-		List<NotificationEntity> aList = notificationService.findAll();
+		List<TemplateEntity> aList = templateService.findAll();
 		if(null == aList) {
-			throw new IllegalArgumentException("Notification Table is empty.");
+			throw new IllegalArgumentException("Template Table is empty.");
 		}
 		
 		List<Object> objectList = new ArrayList<Object>(aList);
@@ -106,5 +99,5 @@ public class NotificationController
 		
 		return new ResponseEntity<>(jsonString, aResponseHeader, HttpStatus.OK);
 	}
-	
+
 }

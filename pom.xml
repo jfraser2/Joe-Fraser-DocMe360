@@ -66,6 +66,13 @@
     		<artifactId>jackson-databind</artifactId>
     	</dependency>
     	
+<!-- java to json conversion -->  
+		<dependency>
+    		<groupId>com.google.code.gson</groupId>
+    		<artifactId>gson</artifactId>
+    		<version>2.12.0</version>
+		</dependency>  	
+    	
 <!-- For handling Request Validation Errors -->		
 		<dependency>
 		   <groupId>com.fasterxml.jackson.datatype</groupId>
