@@ -12,6 +12,7 @@ public interface Notification {
 	
 	public String generatePersonalization(NotificationEntity notificationEntity);
 	
+	public boolean validateTemplateFields(CreateNotification createNotificationRequest);
 	public NotificationEntity buildNotificationEntity(CreateNotification createNotificationRequest);
 	public NotificationEntity persistData(NotificationEntity notificationEntity);
 }

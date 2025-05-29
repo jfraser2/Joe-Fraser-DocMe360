@@ -127,5 +127,24 @@ public class NotificationImpl
 		return retVar;
 	}
 	
+	@Override
+	public boolean validateTemplateFields(CreateNotification createNotificationRequest) {
+		
+		boolean retVar = false;
+		
+		String templateId = createNotificationRequest.getTemplateId();
+		if (null != templateId && templateId.length() > 0)
+		{
+			retVar = true;
+		} else {
+			String tempVar = createNotificationRequest.getTemplateText();
+			if (null != tempVar && tempVar.length() > 0)
+			{
+				retVar = true;
+			}	
+		}
+		
+		return retVar;
+	}
 
 }
