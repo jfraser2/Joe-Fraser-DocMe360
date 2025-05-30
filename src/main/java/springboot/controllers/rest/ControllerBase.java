@@ -18,6 +18,9 @@ public abstract class ControllerBase
 {
 	protected static final String GODD_RESPONSE_PREFIX = "{\"status\":\"OK\", \"modelData\":";
 	protected static final String GODD_RESPONSE_SUFFIX = "}";
+	protected static final String CONTENT_FIELD_BEGIN = "\"content\":\"";
+	protected static final String CONTENT_FIELD_END = "\"";
+	protected static final String EOL = System.getProperty("line.separator");
 	
 	private String convertListToJson(List<Object> anObjectList)
 	{
@@ -60,7 +63,7 @@ public abstract class ControllerBase
 		return jsonString;
 	}
 	
-	protected String goodResponse(Object anObject, StringBuilderContainer aContainer)
+	protected String goodResponse(Object anObject, StringBuilderContainer aContainer, String substitutedText)
 	{
 		String jsonString = convertToJson(anObject);
 		
@@ -70,6 +73,12 @@ public abstract class ControllerBase
 		
 		aBuilder.append(GODD_RESPONSE_PREFIX);
 		aBuilder.append(jsonString);
+		if (null != substitutedText && substitutedText.length() > 0) {
+			aBuilder.append(",");
+			aBuilder.append(CONTENT_FIELD_BEGIN);
+			aBuilder.append(substitutedText);
+			aBuilder.append(CONTENT_FIELD_END);
+		}
 		aBuilder.append(GODD_RESPONSE_SUFFIX);
 		
 		return aBuilder.toString();

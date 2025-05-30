@@ -15,11 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import springboot.autowire.helpers.StringBuilderContainer;
 import springboot.autowire.helpers.ValidationErrorContainer;
 import springboot.dto.request.CreateTemplate;
+import springboot.dto.request.GetById;
 import springboot.dto.validation.exceptions.RequestValidationException;
 import springboot.entities.TemplateEntity;
 import springboot.errorHandling.helpers.ApiValidationError;
@@ -36,6 +38,9 @@ public class TemplateController
 	
 	@Autowired
 	private RequestValidation<CreateTemplate> createTemplateValidation;
+	
+	@Autowired
+	private RequestValidation<GetById> getByIdValidation;
 	
 	@Autowired
 	@Qualifier("requestValidationErrorsContainer")
@@ -67,7 +72,7 @@ public class TemplateController
 		TemplateEntity te = templateService.buildTemplateEntity(data);
 		TemplateEntity savedEntity = templateService.persistData(te);
 		
-		String jsonString = goodResponse(savedEntity, requestStringBuilderContainer);
+		String jsonString = goodResponse(savedEntity, requestStringBuilderContainer, null);
 		te = null;
 		savedEntity = null;
 		
@@ -98,6 +103,39 @@ public class TemplateController
 		
 		List<Object> objectList = new ArrayList<Object>(aList);
 		String jsonString = goodResponseList(objectList, requestStringBuilderContainer);
+		
+		// support CORS
+		HttpHeaders aResponseHeader = createResponseHeader();
+		
+		return new ResponseEntity<>(jsonString, aResponseHeader, HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = {RequestMethod.GET},
+			path = "/v1/findByTemplaateId",
+			produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<Object> findByTemplateId(@RequestParam(required = true) String templateId, HttpServletRequest request)
+		throws RequestValidationException, IllegalArgumentException, AccessDeniedException
+	{
+		
+		GetById data = new GetById(templateId);
+		getByIdValidation.validateRequest(data, requestValidationErrorsContainer, null);
+		List<ApiValidationError> errorList = requestValidationErrorsContainer.getValidationErrorList();
+		
+		if (errorList.size() > 0)
+		{
+//			System.out.println("Right before the throw");
+			throw new RequestValidationException(errorList);
+		}
+		
+		Long tempId = Long.valueOf(templateId);
+		TemplateEntity record = templateService.findById(tempId);
+		if(null == record) {
+			throw new IllegalArgumentException("This Template does not exist.");
+		}
+		
+		String jsonString = goodResponse(record, requestStringBuilderContainer, null);
+		record = null;
 		
 		// support CORS
 		HttpHeaders aResponseHeader = createResponseHeader();

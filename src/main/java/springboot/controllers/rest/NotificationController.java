@@ -15,12 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 //import io.swagger.annotations.ApiImplicitParam;
 import springboot.autowire.helpers.StringBuilderContainer;
 import springboot.autowire.helpers.ValidationErrorContainer;
 import springboot.dto.request.CreateNotification;
+import springboot.dto.request.GetById;
 import springboot.dto.validation.exceptions.RequestValidationException;
 import springboot.entities.NotificationEntity;
 import springboot.errorHandling.helpers.ApiValidationError;
@@ -37,6 +39,9 @@ public class NotificationController
 	
 	@Autowired
 	private RequestValidation<CreateNotification> createNotificationValidation;
+
+	@Autowired
+	private RequestValidation<GetById> getByIdValidation;
 	
 	@Autowired
 	@Qualifier("requestValidationErrorsContainer")
@@ -74,7 +79,7 @@ public class NotificationController
 		NotificationEntity ne = notificationService.buildNotificationEntity(data);
 		NotificationEntity savedEntity = notificationService.persistData(ne);
 		
-		String jsonString = goodResponse(savedEntity, requestStringBuilderContainer);
+		String jsonString = goodResponse(savedEntity, requestStringBuilderContainer, null);
 		ne = null;
 		savedEntity = null;
 		
@@ -111,5 +116,40 @@ public class NotificationController
 		
 		return new ResponseEntity<>(jsonString, aResponseHeader, HttpStatus.OK);
 	}
+	
+	@RequestMapping(method = {RequestMethod.GET},
+			path = "/v1/findByNotificationId",
+			produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<Object> findByNotificationId(@RequestParam(required = true) String notificationId, HttpServletRequest request)
+		throws RequestValidationException, IllegalArgumentException, AccessDeniedException
+	{
+		
+		GetById data = new GetById(notificationId);
+		getByIdValidation.validateRequest(data, requestValidationErrorsContainer, null);
+		List<ApiValidationError> errorList = requestValidationErrorsContainer.getValidationErrorList();
+		
+		if (errorList.size() > 0)
+		{
+//			System.out.println("Right before the throw");
+			throw new RequestValidationException(errorList);
+		}
+		
+		Long tempId = Long.valueOf(notificationId);
+		NotificationEntity record = notificationService.findById(tempId);
+		if(null == record) {
+			throw new IllegalArgumentException("This Notification does not exist.");
+		}
+		
+		String substitutedText = notificationService.generatePersonalization(record);
+		String jsonString = goodResponse(record, requestStringBuilderContainer, substitutedText);
+		record = null;
+		
+		// support CORS
+		HttpHeaders aResponseHeader = createResponseHeader();
+		
+		return new ResponseEntity<>(jsonString, aResponseHeader, HttpStatus.OK);
+	}
+	
 	
 }

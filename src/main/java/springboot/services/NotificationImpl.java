@@ -102,7 +102,7 @@ public class NotificationImpl
 			String templateId = createNotificationRequest.getTemplateId();
 			if (null != templateId && templateId.length() > 0)
 			{
-				Long tempId = Long.getLong(templateId);
+				Long tempId = Long.valueOf(templateId);
 				Optional<TemplateEntity> te = templateRepository.findById(tempId);
 				if (te.isPresent()) {
 					templateEntity = te.get();
