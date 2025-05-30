@@ -38,11 +38,23 @@ It is now working, and tested<br/>
 you cannot use the command until DockerDesktop is running
 
 #SQLite 
-Download from site: https://sqlite.org/index.html<br/>
-install and run<br/>
+Download the sqlite-tools-win-x64-3490200.zip from site: https://sqlite.org/index.html and install it<br/>
+Then run sqlite3.exe and create the va.db database as per the requirements.md document<br/>
+The requirements say to make two tables Notifications and Templates joined by a foreign key<br/>
+You should be able to use the files from the databaseScripts folder to help<br/>
 
-from the SQLite command line<br/>
-sqlite> attach database ':memory:' as vadb; <br/>
+the Application testing showed SQLite has an issue.<br/>
+the value of foreign_keys is set to OFF by default<br/>
+the only way I was able to see it ON, was in the command line shell<br/>
+so thru the command line, the foreign_keys are created properly<br/>
+However the Spring Boot Application cannot use a database created in the command line shell<br/>
+I tried many times, but could not get foreign_keys to be ON in the Spring Boot application.<br/>
+In the Application the foreign Keys are not created properly, the tables are<br/>
+
+An example run from the windows shell would be:  sqlite3 va.db<br/>
+
+Example SQLite command line to list all tables<br/>
+sqlite> .tables <br/>
 
 
 
