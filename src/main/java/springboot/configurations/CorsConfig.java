@@ -33,18 +33,20 @@ public class CorsConfig extends WebMvcConfigurationSupport
 
     	System.out.println("Set Up Cors for Angular");
     	// Angular Testing from AngularIDE
+    	// Support for CRUD
         registry.addMapping("/**")
             .allowedOrigins("http://localhost:4200")
             .allowedHeaders("Access-Control-Allow-Origin", "Origin", "Accept", "Content-Type", "Authorization")
-            .allowedMethods("POST", "OPTIONS", "GET", "DELETE", "PUT");
+            .allowedMethods("POST", "OPTIONS", "GET", "DELETE", "PUT", "PATCH");
 
     	System.out.println("Set Up Cors for Swagger");
     	
     	// Mapping for Swagger Testing
+    	// Support for CRUD
         registry.addMapping("swagger-ui.html")
             .allowedOrigins("*")
             .allowedHeaders("Access-Control-Allow-Origin", "Origin", "Access-Control-Allow-Headers", "Accept", "Content-Type", "Vary")
-            .allowedMethods("GET", "POST");
+            .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH");
         
         // Add more mappings...
     }
