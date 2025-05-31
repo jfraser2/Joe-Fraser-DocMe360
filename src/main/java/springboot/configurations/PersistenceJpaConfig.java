@@ -124,7 +124,7 @@ public class PersistenceJpaConfig
 		
 		/* works outside of Docker */
 		
-		String connectString = "jdbc:sqlite:src/main/resources/va.db";
+		String connectString = "jdbc:sqlite:/DATA/SQLite/va.db";
 		String userName = "sa"; // also try SA, with no password, initial h2
 		String password = "sa"; // initial SQLite
 		String driverClass = "org.sqlite.JDBC";
