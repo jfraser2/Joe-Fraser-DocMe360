@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class NotificationEntity {
 	
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "int")
     private Long id;
 	

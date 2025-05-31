@@ -1,4 +1,3 @@
-version: '3.2'
 
 #networks:
 #  nexus_network:
@@ -16,6 +15,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8080:8080
+#appData volume is mounted inside the service at
+    volumes:
+#binds the local directory or file (can be relative or absolute) to the path to use in the container
+     - /data/SQLite/va.db:/data/SQLite/va.db # Bind mount
     environment:
       - JVM_OPTS=-Xms4G -Xmx10G -Dspring.profiles.active=dev
 #    networks:

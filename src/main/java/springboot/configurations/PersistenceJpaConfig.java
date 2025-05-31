@@ -1,5 +1,7 @@
 package springboot.configurations;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.util.Properties;
 
@@ -55,7 +57,7 @@ public class PersistenceJpaConfig
 	 
 	    HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 	    vendorAdapter.setShowSql(true);
-	    vendorAdapter.setGenerateDdl(true);
+	    vendorAdapter.setGenerateDdl(false);
 	    vendorAdapter.setPrepareConnection(true); // hibernate 5.1 or 5.2
 	    vendorAdapter.setDatabasePlatform("org.sqlite.hibernate.dialect.SQLiteDialect");
 	    
@@ -98,8 +100,8 @@ public class PersistenceJpaConfig
 	private Properties additionalProperties()
 	{
 	    Properties properties = new Properties();
-//	    properties.setProperty("hibernate.ddl-auto", "none");
-	    properties.setProperty("hibernate.ddl-auto", "create-drop");
+	    properties.setProperty("hibernate.ddl-auto", "none");
+//	    properties.setProperty("hibernate.ddl-auto", "create-drop");
 //	    properties.setProperty("hibernate.ddl-auto", "update");
 	    properties.setProperty("hibernate.dialect", "org.sqlite.hibernate.dialect.SQLiteDialect");
 	    properties.setProperty("hibernate.current_session_context_class", "thread");
@@ -120,9 +122,10 @@ public class PersistenceJpaConfig
 //		String password = getConfigSettingNoCache(appName, "DBCONN-Password", anEnvironment);
 //		String driverClass = getConfigSettingNoCache(appName, "DBCONN-DriverClass", anEnvironment);
 		
-		/* cheating for now in memory database */
+		/* works outside of Docker */
 		
-		String connectString = "jdbc:sqlite:va.db";
+		
+		String connectString = "jdbc:sqlite:/data/SQLite/va.db";
 		String userName = "sa"; // also try SA, with no password, initial h2
 		String password = "sa"; // initial SQLite
 		String driverClass = "org.sqlite.JDBC";
@@ -155,7 +158,7 @@ public class PersistenceJpaConfig
         p.setMinIdle(1);
         p.setLogAbandoned(true);
         p.setRemoveAbandoned(true);
-//        p.setInitSQL("PRAGMA foreign_keys = true;");
+        p.setInitSQL("PRAGMA foreign_keys = ON;");
  		 
 		DataSource aDataSource = null;
 		

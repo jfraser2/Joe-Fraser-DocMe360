@@ -1,0 +1,10 @@
+.git
+.classpath
+.gitignore
+.project
+.settings
+databaseScripts
+pom.xml
+README.md
+Requirements.md
+src
