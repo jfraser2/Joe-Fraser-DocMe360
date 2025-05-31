@@ -1,0 +1,3 @@
+docker run -d --rm --name dummy -v appData:/root alpine tail -f /dev/null
+cp c:\data\SQLite\va.db dummy:/root/va.db
+docker stop dummy

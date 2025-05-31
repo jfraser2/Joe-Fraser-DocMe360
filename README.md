@@ -41,7 +41,7 @@ you cannot use the command until DockerDesktop is running
 Download the sqlite-tools-win-x64-3490200.zip from site: https://sqlite.org/index.html and install it<br/>
 Then run sqlite3.exe and create the va.db database as per the requirements.md document<br/>
 The requirements say to make two tables Notifications and Templates joined by a foreign key<br/>
-You should be able to use the file in the project folder databaseScripts folder to help<br/>
+You should be able to use the file, in the project folder databaseScripts to help<br/>
 After the tables are made and va.db is persisted to the disk, copy the va.db to the folder C:/DATA/SQLite on the disk drive<br/>
 Create the folder if it does not exist<br/>
 The application will now work, outside of Docker<br/>
