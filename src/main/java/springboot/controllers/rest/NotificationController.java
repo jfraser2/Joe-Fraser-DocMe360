@@ -23,6 +23,7 @@ import springboot.autowire.helpers.StringBuilderContainer;
 import springboot.autowire.helpers.ValidationErrorContainer;
 import springboot.dto.request.CreateNotification;
 import springboot.dto.request.GetById;
+import springboot.dto.response.NonModelAdditionalFields;
 import springboot.dto.validation.exceptions.RequestValidationException;
 import springboot.entities.NotificationEntity;
 import springboot.errorHandling.helpers.ApiValidationError;
@@ -141,8 +142,16 @@ public class NotificationController
 			throw new IllegalArgumentException("This Notification does not exist.");
 		}
 		
+		String jsonString = null;
 		String substitutedText = notificationService.generatePersonalization(record);
-		String jsonString = goodResponse(record, requestStringBuilderContainer, substitutedText);
+		if (null != substitutedText && substitutedText.length() > 0) {
+			NonModelAdditionalFields nonModelAdditionalFields = new NonModelAdditionalFields();
+			nonModelAdditionalFields.setContent(substitutedText);
+			jsonString = goodResponse(record, requestStringBuilderContainer, nonModelAdditionalFields);			
+		} else {
+			jsonString = goodResponse(record, requestStringBuilderContainer, null);			
+		}
+		
 		record = null;
 		
 		// support CORS

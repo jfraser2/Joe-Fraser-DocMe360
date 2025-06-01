@@ -12,15 +12,26 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import springboot.autowire.helpers.StringBuilderContainer;
+import springboot.dto.response.NonModelAdditionalFields;
 import springboot.enums.MapperEnum;
 
 public abstract class ControllerBase
 {
 	protected static final String GODD_RESPONSE_PREFIX = "{\"status\":\"OK\", \"modelData\":";
 	protected static final String GODD_RESPONSE_SUFFIX = "}";
-	protected static final String CONTENT_FIELD_BEGIN = "\"content\":\"";
-	protected static final String CONTENT_FIELD_END = "\"";
 	protected static final String EOL = System.getProperty("line.separator");
+	protected static final String JSON_FIELD_SEPARATOR = ",";
+	
+	private String removeObjectBeginAndEnd(String objectString) {
+		
+		String retVar = null;
+		
+		if (null != objectString && objectString.length() > 1) {
+			retVar = objectString.substring(1, objectString.length() - 1);
+		}
+		
+		return retVar;
+	}
 	
 	private String convertListToJson(List<Object> anObjectList)
 	{
@@ -63,7 +74,7 @@ public abstract class ControllerBase
 		return jsonString;
 	}
 	
-	protected String goodResponse(Object anObject, StringBuilderContainer aContainer, String substitutedText)
+	protected String goodResponse(Object anObject, StringBuilderContainer aContainer, NonModelAdditionalFields nonModelAdditionalFields)
 	{
 		String jsonString = convertToJson(anObject);
 		
@@ -73,11 +84,14 @@ public abstract class ControllerBase
 		
 		aBuilder.append(GODD_RESPONSE_PREFIX);
 		aBuilder.append(jsonString);
-		if (null != substitutedText && substitutedText.length() > 0) {
-			aBuilder.append(",");
-			aBuilder.append(CONTENT_FIELD_BEGIN);
-			aBuilder.append(substitutedText);
-			aBuilder.append(CONTENT_FIELD_END);
+		if (null != nonModelAdditionalFields) {
+			String tempJson = convertToJson(nonModelAdditionalFields);
+			String fixedObjectJson = removeObjectBeginAndEnd(tempJson);
+			if (null != fixedObjectJson) {
+				aBuilder.append(JSON_FIELD_SEPARATOR); // a comma
+				aBuilder.append(fixedObjectJson);
+			}
+			
 		}
 		aBuilder.append(GODD_RESPONSE_SUFFIX);
 		
