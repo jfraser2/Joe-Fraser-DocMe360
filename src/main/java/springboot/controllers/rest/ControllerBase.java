@@ -26,9 +26,12 @@ public abstract class ControllerBase
 	
 //	protected final String goodResponsePrefix = "{" + EOL + INDENT + ""\"status\":\"OK\"," + EOL + INDENT + ""\"modelData\":";
 	
-	private String generateGoodResponsePrefix() {
+	private String generateGoodResponsePrefix(Object databaseEntityObject) {
+		
+		String entityName = databaseEntityObject.getClass().getSimpleName();
 		return ("{" + ControllerBase.EOL + ControllerBase.INDENT +
-				"\"status\": \"OK\"," + ControllerBase.EOL + ControllerBase.INDENT + "\"modelData\": ");
+				"\"status\": \"OK\"," + ControllerBase.EOL + ControllerBase.INDENT
+				+ "\"" + entityName + "\": ");
 	}
 	
 	private String removeObjectBeginAndEnd(String objectString) {
@@ -91,7 +94,7 @@ public abstract class ControllerBase
 		aContainer.clearStringBuffer();
 		StringBuilder aBuilder = aContainer.getStringBuilder();
 		
-		aBuilder.append(generateGoodResponsePrefix());
+		aBuilder.append(generateGoodResponsePrefix(anObject));
 		aBuilder.append(jsonString);
 		if (null != nonModelAdditionalFields) {
 			String tempJson = convertToJson(nonModelAdditionalFields);
@@ -115,7 +118,9 @@ public abstract class ControllerBase
 		aContainer.clearStringBuffer();
 		StringBuilder aBuilder = aContainer.getStringBuilder();
 		
-		aBuilder.append(generateGoodResponsePrefix());
+		Object tempObject = anObject.get(0);
+		
+		aBuilder.append(generateGoodResponsePrefix(tempObject));
 		aBuilder.append(jsonString);
 		aBuilder.append(GODD_RESPONSE_SUFFIX);
 		
