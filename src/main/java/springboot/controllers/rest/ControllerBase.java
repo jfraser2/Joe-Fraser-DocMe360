@@ -17,16 +17,25 @@ import springboot.enums.MapperEnum;
 
 public abstract class ControllerBase
 {
-	protected static final String GODD_RESPONSE_PREFIX = "{\"status\":\"OK\", \"modelData\":";
-	protected static final String GODD_RESPONSE_SUFFIX = "}";
 	protected static final String EOL = System.getProperty("line.separator");
+	protected static final String INDENT = "  ";
+
+//	protected static final String GODD_RESPONSE_PREFIX = "{" + EOL + INDENT + ""\"status\":\"OK\"," + EOL + INDENT + ""\"modelData\":";
+	protected static final String GODD_RESPONSE_SUFFIX = "}";
 	protected static final String JSON_FIELD_SEPARATOR = ",";
+	
+//	protected final String goodResponsePrefix = "{" + EOL + INDENT + ""\"status\":\"OK\"," + EOL + INDENT + ""\"modelData\":";
+	
+	private String generateGoodResponsePrefix() {
+		return ("{" + ControllerBase.EOL + ControllerBase.INDENT +
+				"\"status\": \"OK\"," + ControllerBase.EOL + ControllerBase.INDENT + "\"modelData\": ");
+	}
 	
 	private String removeObjectBeginAndEnd(String objectString) {
 		
 		String retVar = null;
 		
-		if (null != objectString && objectString.length() > 1) {
+		if (null != objectString && objectString.length() > 3) {
 			retVar = objectString.substring(1, objectString.length() - 1);
 		}
 		
@@ -82,7 +91,7 @@ public abstract class ControllerBase
 		aContainer.clearStringBuffer();
 		StringBuilder aBuilder = aContainer.getStringBuilder();
 		
-		aBuilder.append(GODD_RESPONSE_PREFIX);
+		aBuilder.append(generateGoodResponsePrefix());
 		aBuilder.append(jsonString);
 		if (null != nonModelAdditionalFields) {
 			String tempJson = convertToJson(nonModelAdditionalFields);
@@ -106,7 +115,7 @@ public abstract class ControllerBase
 		aContainer.clearStringBuffer();
 		StringBuilder aBuilder = aContainer.getStringBuilder();
 		
-		aBuilder.append(GODD_RESPONSE_PREFIX);
+		aBuilder.append(generateGoodResponsePrefix());
 		aBuilder.append(jsonString);
 		aBuilder.append(GODD_RESPONSE_SUFFIX);
 		
