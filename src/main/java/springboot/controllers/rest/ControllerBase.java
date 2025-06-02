@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 
 import springboot.autowire.helpers.StringBuilderContainer;
 import springboot.dto.response.NonModelAdditionalFields;
+import springboot.dto.response.ResultStatus;
 import springboot.enums.MapperEnum;
 
 public abstract class ControllerBase
@@ -20,18 +21,18 @@ public abstract class ControllerBase
 	protected static final String EOL = System.getProperty("line.separator");
 	protected static final String INDENT = "  ";
 
-//	protected static final String GODD_RESPONSE_PREFIX = "{" + EOL + INDENT + ""\"status\":\"OK\"," + EOL + INDENT + ""\"modelData\":";
 	protected static final String GODD_RESPONSE_SUFFIX = "}";
 	protected static final String JSON_FIELD_SEPARATOR = ",";
 	
-//	protected final String goodResponsePrefix = "{" + EOL + INDENT + ""\"status\":\"OK\"," + EOL + INDENT + ""\"modelData\":";
-	
 	private String generateGoodResponsePrefix(Object databaseEntityObject) {
 		
+		ResultStatus statusObject = new ResultStatus("OK");
+		String tempJson = convertToJson(statusObject);
+		int endIndex = tempJson.length() - EOL.length() - 1;
+		String statusJson = tempJson.substring(0, endIndex) + JSON_FIELD_SEPARATOR;
+		
 		String entityName = databaseEntityObject.getClass().getSimpleName();
-		return ("{" + ControllerBase.EOL + ControllerBase.INDENT +
-				"\"status\": \"OK\"," + ControllerBase.EOL + ControllerBase.INDENT
-				+ "\"" + entityName + "\": ");
+		return (statusJson + EOL + INDENT + "\"" + entityName + "\": ");
 	}
 	
 	private String removeObjectBeginAndEnd(String objectString) {
