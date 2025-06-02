@@ -28,7 +28,7 @@ public abstract class ControllerBase
 	
 	private String generateGoodResponsePrefix() {
 		return ("{" + ControllerBase.EOL + ControllerBase.INDENT +
-				"\"status\":\"OK\"," + ControllerBase.EOL + ControllerBase.INDENT + "\"modelData\": ");
+				"\"status\": \"OK\"," + ControllerBase.EOL + ControllerBase.INDENT + "\"modelData\": ");
 	}
 	
 	private String removeObjectBeginAndEnd(String objectString) {
