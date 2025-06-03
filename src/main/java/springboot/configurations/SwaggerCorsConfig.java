@@ -2,6 +2,9 @@ package springboot.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -21,19 +24,65 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig
+//@EnableWebMvc
+public class SwaggerCorsConfig
 	extends WebMvcConfigurationSupport 
 {
 	
 	public static final String lineSeparator = System.getProperties().getProperty("line.separator");
+	
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+    	System.out.println("did the Resource Registry");
+    	
+        registry.addResourceHandler("/swagger-ui.html")
+            .addResourceLocations("classpath:/META-INF/resources/");
+ //       .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")        
+
+        registry.addResourceHandler("/webjars/**")
+            .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        
+    } 
+    
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+
+    	System.out.println("Set Up Cors for Angular");
+    	// Angular Testing from AngularIDE
+    	// Support for CRUD
+    	
+        registry.addMapping("/rest/api/**")
+            .allowedOrigins("http://localhost:4200")
+            .allowedHeaders("Access-Control-Allow-Origin", "Origin", "Accept", "Content-Type", "Authorization", "api-key", "Access-Control-Allow-Headers")
+            .allowedMethods("POST", "OPTIONS", "GET", "DELETE", "PUT", "PATCH")
+        	.allowCredentials(false);  
+        
+    	System.out.println("Set Up Cors for Swagger");
+    	
+    	// Mapping for Swagger Testing
+    	// Support for CRUD
+    	
+        registry.addMapping("/swagger-ui.html")
+//            .allowedOrigins("http://localhost:8080")
+            .allowedOrigins("*")
+//            .allowedHeaders("Access-Control-Allow-Origin", "Origin", "Access-Control-Allow-Headers", "Accept", "Content-Type", "Vary", "Authorization", "api-key")
+            .allowedHeaders("*")
+            .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH")
+//        	.allowedMethods("*")
+         	.exposedHeaders("Content-Type", "Content-Range", "Access-Control-Allow-Origin")   // headers for the response does not support wildcards
+        	.allowCredentials(false);  
+        
+        // Add more mappings...
+    }
+		
     
     @Bean
     public Docket api() {
     	
         return new Docket(DocumentationType.SWAGGER_2)
             .select()
-            .apis(RequestHandlerSelectors.basePackage("springboot.controllers.rest"))
-//            .apis(RequestHandlerSelectors.any())
+//            .apis(RequestHandlerSelectors.basePackage("springboot.controllers.rest"))
+            .apis(RequestHandlerSelectors.any())
             .paths(PathSelectors.any())
 //            .paths(PathSelectors.regex("/user.*|/register.*|/oauth/token.*"))
             .build().apiInfo(metaData());

@@ -54,12 +54,12 @@ public class AppErrorController
         		outString.append("<h2>");
         		outString.append("Cors has blocked Swagger!!!");
         		outString.append("</h2>");
-        		outString.append("To Fix this temporarily Comment out @Configuration <br>");
-        		outString.append("in CorsConfig.java. Then recompile and restart.<br><br>");
-        		outString.append("Alternatively you can add an Extension to Chrome<br>");
-        		outString.append("The Name is Allow-Control-Allow-Origin<br>");
-        		outString.append("The URL is https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi<br>");
-        		outString.append("In the extension add the URL to swagger: http://localhost:8080/rest/api/swagger-ui.html<br>");
+        		outString.append("To Fix this temporarily Comment out @Configuration <br/>");
+        		outString.append("in CorsConfig.java. Then recompile and restart.<br/><br/>");
+        		outString.append("Alternatively you can add an Extension to Chrome<br/>");
+        		outString.append("The Name is Access-Control-Allow-Origin<br/>");
+        		outString.append("The URL is https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en<br/>");
+        		outString.append("In the extension add the URL to swagger: http://localhost:8080/swagger-ui.html<br/>");
         		outString.append("</p>");
             	aResponse = new ResponseEntity<>(outString.toString(), status);
         		outString = null;

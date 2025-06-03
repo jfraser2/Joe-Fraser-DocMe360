@@ -125,7 +125,10 @@ public class PersistenceJpaConfig
 		/* works outside of Docker */
 		
 		
-		String connectString = "jdbc:sqlite:/data/SQLite/va.db";
+		// data/SQLite is a relative path from the current directory
+		// this data must be in the current executing directory
+		
+		String connectString = "jdbc:sqlite:data/SQLite/va.db";
 		String userName = "sa"; // also try SA, with no password, initial h2
 		String password = "sa"; // initial SQLite
 		String driverClass = "org.sqlite.JDBC";
