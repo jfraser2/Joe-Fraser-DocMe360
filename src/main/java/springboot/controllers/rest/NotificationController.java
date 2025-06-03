@@ -31,7 +31,7 @@ import springboot.services.interfaces.Notification;
 import springboot.services.interfaces.RequestValidation;
 
 @RestController
-@RequestMapping(path="/actions")
+@RequestMapping(path="/rest/api")
 public class NotificationController
 	extends ControllerBase
 {

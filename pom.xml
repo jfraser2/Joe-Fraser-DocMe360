@@ -165,6 +165,7 @@
 <!-- goal needs to be set as docker:build -->
 <!-- output directory is: ${project.build.directory}/docker -->	
 <!-- Don't think this will work on windows -->
+<!-- Not used
 			<plugin>
   				<groupId>com.spotify</groupId>
   				<artifactId>dockerfile-maven-plugin</artifactId>
@@ -180,16 +181,16 @@
   				</executions>
   				<configuration>
 					<contextDirectory>docker</contextDirectory>
-					<dockerfile>docker/Dockerfile</dockerfile>
-<!--  docker.containers/group-name/image-name -->					  				
-    				<repository>docker.containers/starterProjects/SeleniumAssessmentDockerImage</repository>
+					<dockerfile>Dockerfile</dockerfile>
+  docker.containers/group-name/image-name 					  				
+    				<repository>docker.containers/joe-fraser-va-poc-service:1</repository>
     				<tag>${project.version}</tag>
     				<buildArgs>
       					<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
     				</buildArgs>
   				</configuration>
 			</plugin>	
-    			
+-->    			
 		</plugins>
 		
 	</build>
