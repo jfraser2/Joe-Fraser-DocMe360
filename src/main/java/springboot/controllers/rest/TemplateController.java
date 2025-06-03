@@ -30,7 +30,7 @@ import springboot.services.interfaces.Template;
 import springboot.services.interfaces.RequestValidation;
 
 @RestController
-@RequestMapping(path="/actions")
+@RequestMapping(path="/rest/api")
 public class TemplateController
 	extends ControllerBase
 {

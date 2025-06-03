@@ -34,19 +34,22 @@ public class CorsConfig extends WebMvcConfigurationSupport
     	System.out.println("Set Up Cors for Angular");
     	// Angular Testing from AngularIDE
     	// Support for CRUD
-        registry.addMapping("/**")
+    	
+        registry.addMapping("/rest/api/**")
             .allowedOrigins("http://localhost:4200")
-            .allowedHeaders("Access-Control-Allow-Origin", "Origin", "Accept", "Content-Type", "Authorization")
-            .allowedMethods("POST", "OPTIONS", "GET", "DELETE", "PUT", "PATCH");
-
+            .allowedHeaders("Access-Control-Allow-Origin", "Origin", "Accept", "Content-Type", "Authorization", "api-key", "Access-Control-Allow-Headers")
+            .allowedMethods("POST", "OPTIONS", "GET", "DELETE", "PUT", "PATCH")
+        	.allowCredentials(false);  
+        
     	System.out.println("Set Up Cors for Swagger");
     	
     	// Mapping for Swagger Testing
     	// Support for CRUD
+    	
         registry.addMapping("swagger-ui.html")
-            .allowedOrigins("*")
-            .allowedHeaders("Access-Control-Allow-Origin", "Origin", "Access-Control-Allow-Headers", "Accept", "Content-Type", "Vary")
-            .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH");
+            .allowedOrigins("http://localhost:8080")
+            .allowedHeaders("Access-Control-Allow-Origin", "Origin", "Access-Control-Allow-Headers", "Accept", "Content-Type", "Vary", "Authorization", "api-key")
+            .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS");
         
         // Add more mappings...
     }
