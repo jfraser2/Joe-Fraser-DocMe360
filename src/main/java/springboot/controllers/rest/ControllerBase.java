@@ -53,7 +53,7 @@ public abstract class ControllerBase
 		try {
 			if (null != anObjectList && anObjectList.size() > 0)
 			{
-				Gson gson = new GsonBuilder().serializeNulls().create();
+				Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 				jsonString = gson.toJson(anObjectList);
 			}
 		}
@@ -157,6 +157,7 @@ public abstract class ControllerBase
 //		aResponseHeader.add("Access-Control-Allow-Origin", request.getHeader("Access-Control-Allow-Origin"));
 //		aResponseHeader.add("Access-Control-Allow-Origin", "*");
 		aResponseHeader.add("Content-Type", "application/json");
+		aResponseHeader.add("Access-Control-Allow-Origin", "*");
 		
 		return aResponseHeader;
 		

@@ -57,6 +57,11 @@ Whatever the implemented solution is, a recompile and redeploy would be required
 #Swagger Testing after Boot
 fav Browser url, I use google chrome<br/>
 http://localhost:8080/swagger-ui.html
+With docker use windows command to get the container Ip<br/>
+
+ping host.docker.internal<br/>
+
+http://<ping result>:8080/swagger-ui.html<br/>
 
 #Swagger check
 fav Browser url, I use google chrome<br/>

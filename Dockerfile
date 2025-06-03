@@ -6,8 +6,11 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package
 
-# Stage 2: Package Stage
-FROM maven:3.8.1-openjdk-8 
+# Stage 2: Deploy Stage - Not the same context as builder
+FROM maven:3.8.1-openjdk-8 AS deploy
 WORKDIR /app
+RUN mkdir ./data
+RUN mkdir -p ./data/SQLite
+COPY data ./data
 COPY --from=builder /app/target/*.jar ./app.jar
 ENTRYPOINT ["java", "-Dfile.encoding=UTF-8", "-Dspring.profiles.active=dev", "-jar", "-Xms4G", "-Xmx10G", "app.jar"]
