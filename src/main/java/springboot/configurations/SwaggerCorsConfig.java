@@ -48,11 +48,11 @@ public class SwaggerCorsConfig
     public void addCorsMappings(CorsRegistry registry) {
 
     	System.out.println("Set Up Cors for Angular");
-    	// Angular Testing from AngularIDE
+    	// Angular Testing from AngularIDE or localhost(manual from a Browser)
     	// Support for CRUD
     	
         registry.addMapping("/rest/api/**")
-            .allowedOrigins("http://localhost:4200")
+            .allowedOrigins("http://localhost:4200", "http://localhost:8080")
             .allowedHeaders("Access-Control-Allow-Origin", "Origin", "Accept", "Content-Type", "Authorization", "api-key", "Access-Control-Allow-Headers")
             .allowedMethods("POST", "OPTIONS", "GET", "DELETE", "PUT", "PATCH")
         	.allowCredentials(false);  
