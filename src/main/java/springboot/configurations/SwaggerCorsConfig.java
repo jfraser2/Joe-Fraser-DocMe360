@@ -58,16 +58,15 @@ public class SwaggerCorsConfig
         	.allowCredentials(false);  
         
     	System.out.println("Set Up Cors for Swagger");
-    	
     	// Mapping for Swagger Testing
     	// Support for CRUD
     	
         registry.addMapping("/swagger-ui.html")
-//            .allowedOrigins("http://localhost:8080")
-            .allowedOrigins("*")
-//            .allowedHeaders("Access-Control-Allow-Origin", "Origin", "Access-Control-Allow-Headers", "Accept", "Content-Type", "Vary", "Authorization", "api-key")
-            .allowedHeaders("*")
-            .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH")
+            .allowedOrigins("http://localhost:8080")
+//            .allowedOrigins("*")
+            .allowedHeaders("Access-Control-Allow-Origin", "Origin", "Access-Control-Allow-Headers", "Accept", "Content-Type", "Vary", "Authorization", "api-key")
+//            .allowedHeaders("*")
+            .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS")
 //        	.allowedMethods("*")
          	.exposedHeaders("Content-Type", "Content-Range", "Access-Control-Allow-Origin")   // headers for the response does not support wildcards
         	.allowCredentials(false);  
