@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -55,6 +54,7 @@ public class SwaggerCorsConfig
             .allowedOrigins("http://localhost:4200", "http://localhost:8080")
             .allowedHeaders("Access-Control-Allow-Origin", "Origin", "Accept", "Content-Type", "Authorization", "api-key", "Access-Control-Allow-Headers")
             .allowedMethods("POST", "OPTIONS", "GET", "DELETE", "PUT", "PATCH")
+         	.exposedHeaders("Content-Type", "Content-Range", "Access-Control-Allow-Origin")   // headers for the response does not support wildcards
         	.allowCredentials(false);  
         
     	System.out.println("Set Up Cors for Swagger");
