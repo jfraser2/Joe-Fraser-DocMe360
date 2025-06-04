@@ -80,8 +80,8 @@ public class SwaggerCorsConfig
     	
         return new Docket(DocumentationType.SWAGGER_2)
             .select()
-//            .apis(RequestHandlerSelectors.basePackage("springboot.controllers.rest"))
-            .apis(RequestHandlerSelectors.any())
+            .apis(RequestHandlerSelectors.basePackage("springboot.controllers.rest"))
+//            .apis(RequestHandlerSelectors.any())
             .paths(PathSelectors.any())
 //            .paths(PathSelectors.regex("/user.*|/register.*|/oauth/token.*"))
             .build().apiInfo(metaData());
