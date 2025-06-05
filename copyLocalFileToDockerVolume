@@ -8,6 +8,7 @@ docker run -d --rm --name dummy -v joeFraserDataSQLite:/data/SQLite alpine tail 
 docker cp c:\data\SQLite\va.db dummy:/data/SQLite/va.db
 
 #Stop will remove the dummy Container from DockerDesktop
+# the image is still left in DockerDesktop delete it manually
 docker stop dummy
 
 #Now you can see va.db in DockerDesktop.
