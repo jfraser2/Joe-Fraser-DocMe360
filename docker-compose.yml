@@ -15,10 +15,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8080:8080
-#appData volume is mounted inside the service at
-#    volumes:
-#binds the local directory or file (can be relative or absolute) to the path to use in the container
-#     - ./data/SQLite/va.db:/data/SQLite/va.db # Bind mount
+#joeFraserDataSQLite volume is mounted inside the service container at
+    volumes:
+#binds the external Volume to the path to use in the container
+     - joeFraserDataSQLite:/data/SQLite # Bind mount
     environment:
       - JVM_OPTS=-Xms4G -Xmx10G -Dspring.profiles.active=dev
 #    networks:
@@ -28,3 +28,7 @@ services:
       decode_log_event_to_json_object: "true"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+volumes:
+  joeFraserDataSQLite:
+    external: true
