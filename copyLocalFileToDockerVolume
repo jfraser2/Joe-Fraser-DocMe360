@@ -1,3 +1,18 @@
-docker run -d --rm --name dummy -v appData:/root alpine tail -f /dev/null
-cp c:\data\SQLite\va.db dummy:/root/va.db
+#docker run -d --rm --name temp_container -v your_volume_name:/volume_mount_point alpine tail -f /dev/null
+# your_volume_name is the one you created in DockerDesktop
+#The volume_mount_point will be created in the container if it does not exist
+
+docker run -d --rm --name dummy -v joeFraserDataSQLite:/data/SQLite alpine tail -f /dev/null
+
+#change the local file location to whatever you like
+docker cp c:\data\SQLite\va.db dummy:/data/SQLite/va.db
+
+#Stop will remove the dummy Container from DockerDesktop
+# the image is still left in DockerDesktop delete it manually
 docker stop dummy
+
+#Now you can see va.db in DockerDesktop.
+# click Volumes, click your_volume_name, click Stored Data
+
+#Stored Data Info
+>docker volume inspect joeFraserDataSQLite
