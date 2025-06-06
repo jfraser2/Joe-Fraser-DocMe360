@@ -43,8 +43,8 @@ public class AppErrorController
         	 * 
         	 *  answer 37 for site - https://stackoverflow.com/questions/10883211/deadly-cors-when-http-localhost-is-the-origin
         	 *  Add a Chrome Extension Allow-Control-Allow-Origin: * 
-        	 *  Extension Url is: https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi
-        	 *  In the extension add the URL to swagger: http://localhost:8080/rest/api/swagger-ui.html
+        	 *  Extension Url is: https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en<br/>
+        	 *  In the extension add the URL to swagger: http://localhost:8080/swagger-ui.html
         	 * 
         	 */
         	if (path.contains("swagger-ui.html"))
