@@ -1,5 +1,6 @@
 package springboot.controllers.rest;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -27,12 +28,12 @@ public abstract class ControllerBase
 	private String generateGoodResponsePrefix(Object databaseEntityObject) {
 		
 		ResultStatus statusObject = new ResultStatus("OK");
-		String tempJson = convertToJson(statusObject);
-		int endIndex = tempJson.length() - EOL.length() - 1;
+		String tempJson = convertToJsonNoPrettyPrint(statusObject);
+		int endIndex = tempJson.length() - 1;
 		String statusJson = tempJson.substring(0, endIndex) + JSON_FIELD_SEPARATOR;
 		
 		String entityName = databaseEntityObject.getClass().getSimpleName();
-		return (statusJson + EOL + INDENT + "\"" + entityName + "\": ");
+		return (statusJson + "\"" + entityName + "\": ");
 	}
 	
 	private String removeObjectBeginAndEnd(String objectString) {
@@ -66,7 +67,50 @@ public abstract class ControllerBase
 		
 	}
 	
-	private String convertToJson(Object anObject)
+	private String convertListToJsonNoPrettyPrint(List<Object> anObjectList)
+	{
+		String jsonString = null;
+		
+		try {
+			if (null != anObjectList && anObjectList.size() > 0)
+			{
+				Gson gson = new GsonBuilder().serializeNulls().create();
+				jsonString = gson.toJson(anObjectList);
+			}
+		}
+		catch(Exception jpe)
+		{
+			jsonString = null;
+		}
+		
+		return jsonString;
+		
+	}
+
+	private String convertToPrettyPrintJson(String rawJsonString)
+	{
+		String outputString = null;
+		
+		try {
+			if (null != rawJsonString)
+			{
+				ObjectMapper mapper = MapperEnum.INSTANCE.getObjectMapper();				
+				ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+				
+				outputString = ow.writeValueAsString(mapper.readValue(rawJsonString, Object.class));
+			}
+		}
+		catch(JsonProcessingException jpe)
+		{
+			outputString = null;
+		} catch (IOException e) {
+			outputString = null;
+		}
+		
+		return outputString;
+	}
+
+	private String convertToJsonPrettyPrint(Object anObject)
 	{
 		String jsonString = null;
 		
@@ -87,9 +131,28 @@ public abstract class ControllerBase
 		return jsonString;
 	}
 	
+	private String convertToJsonNoPrettyPrint(Object anObject)
+	{
+		String jsonString = null;
+		
+		try {
+			if (null != anObject)
+			{
+				ObjectMapper mapper = MapperEnum.INSTANCE.getObjectMapper();				
+				jsonString = mapper.writeValueAsString(anObject);
+			}
+		}
+		catch(JsonProcessingException jpe)
+		{
+			jsonString = null;
+		}
+		
+		return jsonString;
+	}
+	
 	protected String goodResponse(Object anObject, StringBuilderContainer aContainer, NonModelAdditionalFields nonModelAdditionalFields)
 	{
-		String jsonString = convertToJson(anObject);
+		String jsonString = convertToJsonNoPrettyPrint(anObject);
 		
 		// Since it is Autowired clear the buffer before you use it
 		aContainer.clearStringBuffer();
@@ -98,7 +161,7 @@ public abstract class ControllerBase
 		aBuilder.append(generateGoodResponsePrefix(anObject));
 		aBuilder.append(jsonString);
 		if (null != nonModelAdditionalFields) {
-			String tempJson = convertToJson(nonModelAdditionalFields);
+			String tempJson = convertToJsonNoPrettyPrint(nonModelAdditionalFields);
 			String fixedObjectJson = removeObjectBeginAndEnd(tempJson);
 			if (null != fixedObjectJson) {
 				aBuilder.append(JSON_FIELD_SEPARATOR); // a comma
@@ -107,13 +170,17 @@ public abstract class ControllerBase
 			
 		}
 		aBuilder.append(GODD_RESPONSE_SUFFIX);
+		String rawJson = aBuilder.toString();
 		
-		return aBuilder.toString();
+//		System.out.println("raw json is: " + rawJson);
+		
+		
+		return convertToPrettyPrintJson(rawJson);
 	}
 	
 	protected String goodResponseList(List<Object> anObject, StringBuilderContainer aContainer)
 	{
-		String jsonString = convertListToJson(anObject);
+		String jsonString = convertListToJsonNoPrettyPrint(anObject);
 		
 		// Since it is Autowired clear the buffer before you use it
 		aContainer.clearStringBuffer();
@@ -124,8 +191,11 @@ public abstract class ControllerBase
 		aBuilder.append(generateGoodResponsePrefix(tempObject));
 		aBuilder.append(jsonString);
 		aBuilder.append(GODD_RESPONSE_SUFFIX);
+		String rawJson = aBuilder.toString();
+
+//		System.out.println("raw json is: " + rawJson);
 		
-		return aBuilder.toString();
+		return convertToPrettyPrintJson(rawJson);
 	}
 
 	protected Method getMethodOfClass(Class<?> aClass, String methodName)
