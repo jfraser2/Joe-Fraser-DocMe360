@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import springboot.autowire.helpers.StringBuilderContainer;
 import springboot.dto.response.NonModelAdditionalFields;
@@ -45,6 +47,28 @@ public abstract class ControllerBase
 		}
 		
 		return retVar;
+	}
+	
+	private String gsonConvertRawJsonToPrettyPrint(String rawJsonString)
+	{
+		String jsonString = null;
+		
+		try {
+			if (null != rawJsonString && rawJsonString.length() > 0)
+			{
+				Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+				
+				JsonElement jsonElement = JsonParser.parseString(rawJsonString);				
+				jsonString = gson.toJson(jsonElement);
+			}
+		}
+		catch(Exception jpe)
+		{
+			jsonString = null;
+		}
+		
+		return jsonString;
+		
 	}
 	
 	private String convertListToJson(List<Object> anObjectList)
@@ -195,7 +219,7 @@ public abstract class ControllerBase
 
 //		System.out.println("raw json is: " + rawJson);
 		
-		return convertToPrettyPrintJson(rawJson);
+		return gsonConvertRawJsonToPrettyPrint(rawJson);
 	}
 
 	protected Method getMethodOfClass(Class<?> aClass, String methodName)
