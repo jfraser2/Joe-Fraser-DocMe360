@@ -23,6 +23,7 @@ import springboot.autowire.helpers.ValidationErrorContainer;
 import springboot.dto.request.CreateTemplate;
 import springboot.dto.request.GetById;
 import springboot.dto.request.UpdateTemplate;
+import springboot.dto.validation.exceptions.DatabaseRowNotFoundException;
 import springboot.dto.validation.exceptions.RequestValidationException;
 import springboot.entities.TemplateEntity;
 import springboot.errorHandling.helpers.ApiValidationError;
@@ -81,7 +82,7 @@ public class TemplateController
 		savedEntity = null;
 		
 		// support CORS
-		HttpHeaders aResponseHeader = createResponseHeader();
+		HttpHeaders aResponseHeader = createResponseHeader(request);
 		
 		// 201 response
 		return new ResponseEntity<>(jsonString, aResponseHeader, HttpStatus.CREATED);
@@ -92,7 +93,7 @@ public class TemplateController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> allTemplates(HttpServletRequest request)
-		throws RequestValidationException, IllegalArgumentException, AccessDeniedException
+		throws DatabaseRowNotFoundException, AccessDeniedException
 	{
 		
 		List<TemplateEntity> aList = templateService.findAll();
@@ -102,14 +103,14 @@ public class TemplateController
 		}
 		
 		if (isEmpty) {
-			throw new IllegalArgumentException("Template Table is empty.");
+			throw new DatabaseRowNotFoundException("Template Table is empty.");
 		}
 		
 		List<Object> objectList = new ArrayList<Object>(aList);
 		String jsonString = goodResponseList(objectList, requestStringBuilderContainer);
 		
 		// support CORS
-		HttpHeaders aResponseHeader = createResponseHeader();
+		HttpHeaders aResponseHeader = createResponseHeader(request);
 		
 		return new ResponseEntity<>(jsonString, aResponseHeader, HttpStatus.OK);
 	}
@@ -119,7 +120,7 @@ public class TemplateController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> findByTemplateId(@RequestParam(required = true) String templateId, HttpServletRequest request)
-		throws RequestValidationException, IllegalArgumentException, AccessDeniedException
+		throws RequestValidationException, DatabaseRowNotFoundException, AccessDeniedException
 	{
 		
 		GetById data = new GetById(templateId);
@@ -135,14 +136,14 @@ public class TemplateController
 		Long tempId = Long.valueOf(templateId);
 		TemplateEntity record = templateService.findById(tempId);
 		if(null == record) {
-			throw new IllegalArgumentException("This Template does not exist.");
+			throw new DatabaseRowNotFoundException("The Template for Id: " + templateId + " does not exist.");
 		}
 		
 		String jsonString = goodResponse(record, requestStringBuilderContainer, null);
 		record = null;
 		
 		// support CORS
-		HttpHeaders aResponseHeader = createResponseHeader();
+		HttpHeaders aResponseHeader = createResponseHeader(request);
 		
 		return new ResponseEntity<>(jsonString, aResponseHeader, HttpStatus.OK);
 	}
@@ -153,7 +154,7 @@ public class TemplateController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> updateTemplate(@RequestBody UpdateTemplate data, HttpServletRequest request)
-		throws RequestValidationException, IllegalArgumentException, AccessDeniedException
+		throws RequestValidationException, DatabaseRowNotFoundException, AccessDeniedException
 	{
 		
 		// single field validation
@@ -169,7 +170,7 @@ public class TemplateController
 		Long tempId = Long.valueOf(data.getTemplateId());
 		TemplateEntity record = templateService.findById(tempId);
 		if(null == record) {
-			throw new IllegalArgumentException("This Template does not exist.");
+			throw new DatabaseRowNotFoundException("The Template for Id: " + tempId.toString() + " does not exist.");
 		}
 		
 		record.setBody(data.getNewTemplateText());
@@ -181,7 +182,7 @@ public class TemplateController
 		updatedEntity = null;
 		
 		// support CORS
-		HttpHeaders aResponseHeader = createResponseHeader();
+		HttpHeaders aResponseHeader = createResponseHeader(request);
 		
 		return new ResponseEntity<>(jsonString, aResponseHeader, HttpStatus.OK);
 	}
