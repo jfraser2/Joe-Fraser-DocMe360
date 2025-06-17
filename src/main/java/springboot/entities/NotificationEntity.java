@@ -17,7 +17,7 @@ public class NotificationEntity {
     @Column(name = "personalization", columnDefinition = "VARCHAR(25)", nullable = true)
     private String personalization;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "template_id", referencedColumnName = "id", nullable = false)
     private TemplateEntity templateEntity;
     

@@ -24,6 +24,8 @@ import springboot.autowire.helpers.ValidationErrorContainer;
 import springboot.dto.request.CreateNotification;
 import springboot.dto.request.GetById;
 import springboot.dto.response.NonModelAdditionalFields;
+import springboot.dto.validation.exceptions.BuildNotificationException;
+import springboot.dto.validation.exceptions.DatabaseRowNotFoundException;
 import springboot.dto.validation.exceptions.RequestValidationException;
 import springboot.entities.NotificationEntity;
 import springboot.errorHandling.helpers.ApiValidationError;
@@ -58,7 +60,7 @@ public class NotificationController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> createNotification(@RequestBody CreateNotification data, HttpServletRequest request)
-		throws RequestValidationException, IllegalArgumentException, AccessDeniedException
+		throws RequestValidationException, DatabaseRowNotFoundException, AccessDeniedException
 	{
 		
 		// single field validation
@@ -77,7 +79,13 @@ public class NotificationController
 			throw new RequestValidationException(templateFieldsError);
 		}
 		
-		NotificationEntity ne = notificationService.buildNotificationEntity(data);
+		NotificationEntity ne = null;
+		try {
+			ne = notificationService.buildNotificationEntity(data);
+		} catch (BuildNotificationException bne) {
+			throw new DatabaseRowNotFoundException(bne.getMessage());
+		}
+		
 		NotificationEntity savedEntity = notificationService.persistData(ne);
 		
 		String jsonString = goodResponse(savedEntity, requestStringBuilderContainer, null);
@@ -85,7 +93,7 @@ public class NotificationController
 		savedEntity = null;
 		
 		// support CORS
-		HttpHeaders aResponseHeader = createResponseHeader();
+		HttpHeaders aResponseHeader = createResponseHeader(request);
 		
 		// 201 response
 		return new ResponseEntity<>(jsonString, aResponseHeader, HttpStatus.CREATED);
@@ -96,7 +104,7 @@ public class NotificationController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> allNotifications(HttpServletRequest request)
-		throws RequestValidationException, IllegalArgumentException, AccessDeniedException
+		throws DatabaseRowNotFoundException, AccessDeniedException
 	{
 		
 		List<NotificationEntity> aList = notificationService.findAll();
@@ -106,14 +114,14 @@ public class NotificationController
 		}
 		
 		if(isEmpty) {
-			throw new IllegalArgumentException("Notification Table is empty.");
+			throw new DatabaseRowNotFoundException("Notification Table is empty.");
 		}
 		
 		List<Object> objectList = new ArrayList<Object>(aList);
 		String jsonString = goodResponseList(objectList, requestStringBuilderContainer);
 		
 		// support CORS
-		HttpHeaders aResponseHeader = createResponseHeader();
+		HttpHeaders aResponseHeader = createResponseHeader(request);
 		
 		return new ResponseEntity<>(jsonString, aResponseHeader, HttpStatus.OK);
 	}
@@ -123,7 +131,7 @@ public class NotificationController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> findByNotificationId(@RequestParam(required = true) String notificationId, HttpServletRequest request)
-		throws RequestValidationException, IllegalArgumentException, AccessDeniedException
+		throws RequestValidationException, DatabaseRowNotFoundException, AccessDeniedException
 	{
 		
 		GetById data = new GetById(notificationId);
@@ -139,7 +147,7 @@ public class NotificationController
 		Long tempId = Long.valueOf(notificationId);
 		NotificationEntity record = notificationService.findById(tempId);
 		if(null == record) {
-			throw new IllegalArgumentException("This Notification does not exist.");
+			throw new DatabaseRowNotFoundException("The Notification for Id: " + notificationId + " does not exist.");
 		}
 		
 		String jsonString = null;
@@ -155,7 +163,7 @@ public class NotificationController
 		record = null;
 		
 		// support CORS
-		HttpHeaders aResponseHeader = createResponseHeader();
+		HttpHeaders aResponseHeader = createResponseHeader(request);
 		
 		return new ResponseEntity<>(jsonString, aResponseHeader, HttpStatus.OK);
 	}

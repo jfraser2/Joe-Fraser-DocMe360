@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import springboot.dto.request.CreateNotification;
+import springboot.dto.validation.exceptions.BuildNotificationException;
 import springboot.entities.NotificationEntity;
 import springboot.entities.TemplateEntity;
 import springboot.errorHandling.helpers.ApiValidationError;
@@ -86,6 +87,7 @@ public class NotificationImpl
 				retVar = notificationRepository.save(notificationEntity);
 			}	
 		} catch (Exception e) {
+//			System.out.println("Exception is: " + e.getMessage());
 			retVar = null;
 		}
 		
@@ -93,30 +95,32 @@ public class NotificationImpl
 	}
 
 	@Override
-	public NotificationEntity buildNotificationEntity(CreateNotification createNotificationRequest) {
+	@Transactional(propagation = Propagation.REQUIRED)
+	public NotificationEntity buildNotificationEntity(CreateNotification createNotificationRequest)
+		throws BuildNotificationException
+	{
 		
 		NotificationEntity retVar = null;
 		TemplateEntity templateEntity = null;
 		
-		try {
-			String templateId = createNotificationRequest.getTemplateId();
-			if (null != templateId && templateId.length() > 0)
-			{
-				Long tempId = Long.valueOf(templateId);
-				Optional<TemplateEntity> te = templateRepository.findById(tempId);
-				if (te.isPresent()) {
-					templateEntity = te.get();
-				}
+		String templateId = createNotificationRequest.getTemplateId();
+		if (null != templateId && templateId.length() > 0)
+		{
+			Long tempId = Long.valueOf(templateId);
+			Optional<TemplateEntity> te = templateRepository.findById(tempId);
+			if (te.isPresent()) {
+				templateEntity = te.get();
 			} else {
-				String tempVar = createNotificationRequest.getTemplateText();
-				if (null != tempVar && tempVar.length() > 0)
-				{	
-					templateEntity = new TemplateEntity();
-					templateEntity.setBody(createNotificationRequest.getTemplateText());
-				}	
+				throw new BuildNotificationException("The Template for Id: " + templateId + " does not exist.");
 			}
-		} catch (Exception e) {
-			templateEntity = null;
+		} else {
+			String tempVar = createNotificationRequest.getTemplateText();
+			if (null != tempVar && tempVar.length() > 0)
+			{	
+				TemplateEntity tempEntity = new TemplateEntity();
+				tempEntity.setBody(createNotificationRequest.getTemplateText());
+				templateEntity = templateRepository.save(tempEntity);
+			}	
 		}
 		
 		if (null != templateEntity) {
