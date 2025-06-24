@@ -10,13 +10,13 @@ import springboot.services.validation.request.interfaces.functional.ValidateRequ
 // uses java generics
 @Service
 @Scope("prototype") // LifeCycle Ends at Instantiation because of prototype
-public class RequestValidationImpl<RequestType>
+public class RequestValidationService<RequestType>
 	implements RequestValidation<RequestType>
 {
 	
 	private RequestValidationDefaultMethods<RequestType> requestValidationDefaultMethods;
 	
-	public RequestValidationImpl()
+	public RequestValidationService()
 	{
 		this.requestValidationDefaultMethods = new RequestValidationDefaultMethods<RequestType>();
 	}
