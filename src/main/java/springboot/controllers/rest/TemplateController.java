@@ -28,7 +28,7 @@ import springboot.dto.validation.exceptions.RequestValidationException;
 import springboot.entities.TemplateEntity;
 import springboot.errorHandling.helpers.ApiValidationError;
 import springboot.services.interfaces.Template;
-import springboot.services.validation.request.RequestValidationImpl;
+import springboot.services.validation.request.RequestValidationService;
 
 @RestController
 @RequestMapping(path="/rest/api")
@@ -52,7 +52,7 @@ public class TemplateController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> createTemplate(@RequestBody CreateTemplate data,
-		HttpServletRequest request, @Autowired RequestValidationImpl<CreateTemplate> createTemplateValidation)
+		HttpServletRequest request, @Autowired RequestValidationService<CreateTemplate> createTemplateValidation)
 		throws RequestValidationException, IllegalArgumentException, AccessDeniedException
 	{
 		
@@ -112,7 +112,7 @@ public class TemplateController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> findByTemplateId(@RequestParam(required = true) String templateId,
-		HttpServletRequest request, @Autowired RequestValidationImpl<GetById> getByIdValidation)
+		HttpServletRequest request, @Autowired RequestValidationService<GetById> getByIdValidation)
 		throws RequestValidationException, DatabaseRowNotFoundException, AccessDeniedException
 	{
 		
@@ -147,7 +147,7 @@ public class TemplateController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> updateTemplate(@RequestBody UpdateTemplate data,
-		HttpServletRequest request, @Autowired RequestValidationImpl<UpdateTemplate> updateTemplateValidation)
+		HttpServletRequest request, @Autowired RequestValidationService<UpdateTemplate> updateTemplateValidation)
 		throws RequestValidationException, DatabaseRowNotFoundException, AccessDeniedException
 	{
 		
