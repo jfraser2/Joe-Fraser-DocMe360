@@ -28,7 +28,7 @@ import springboot.dto.validation.exceptions.RequestValidationException;
 import springboot.entities.TemplateEntity;
 import springboot.errorHandling.helpers.ApiValidationError;
 import springboot.services.interfaces.Template;
-import springboot.services.interfaces.RequestValidation;
+import springboot.services.validation.request.RequestValidationImpl;
 
 @RestController
 @RequestMapping(path="/rest/api")
@@ -37,15 +37,6 @@ public class TemplateController
 {
 	@Autowired
 	private Template templateService;
-	
-	@Autowired
-	private RequestValidation<CreateTemplate> createTemplateValidation;
-	
-	@Autowired
-	private RequestValidation<UpdateTemplate> updateTemplateValidation;
-	
-	@Autowired
-	private RequestValidation<GetById> getByIdValidation;
 	
 	@Autowired
 	@Qualifier("requestValidationErrorsContainer")
@@ -60,7 +51,8 @@ public class TemplateController
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<Object> createTemplate(@RequestBody CreateTemplate data, HttpServletRequest request)
+	public ResponseEntity<Object> createTemplate(@RequestBody CreateTemplate data,
+		HttpServletRequest request, @Autowired RequestValidationImpl<CreateTemplate> createTemplateValidation)
 		throws RequestValidationException, IllegalArgumentException, AccessDeniedException
 	{
 		
@@ -119,7 +111,8 @@ public class TemplateController
 			path = "/v1/findByTemplateId",
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<Object> findByTemplateId(@RequestParam(required = true) String templateId, HttpServletRequest request)
+	public ResponseEntity<Object> findByTemplateId(@RequestParam(required = true) String templateId,
+		HttpServletRequest request, @Autowired RequestValidationImpl<GetById> getByIdValidation)
 		throws RequestValidationException, DatabaseRowNotFoundException, AccessDeniedException
 	{
 		
@@ -153,7 +146,8 @@ public class TemplateController
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<Object> updateTemplate(@RequestBody UpdateTemplate data, HttpServletRequest request)
+	public ResponseEntity<Object> updateTemplate(@RequestBody UpdateTemplate data,
+		HttpServletRequest request, @Autowired RequestValidationImpl<UpdateTemplate> updateTemplateValidation)
 		throws RequestValidationException, DatabaseRowNotFoundException, AccessDeniedException
 	{
 		

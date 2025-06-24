@@ -1,6 +1,5 @@
 package springboot.services.validation.request;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +9,16 @@ import springboot.services.validation.request.interfaces.functional.ValidateRequ
 
 // uses java generics
 @Service
-@Scope("prototype")
+@Scope("prototype") // LifeCycle Ends at Instantiation because of prototype
 public class RequestValidationImpl<RequestType>
 	implements RequestValidation<RequestType>
 {
 	
-	@Autowired
 	private RequestValidationDefaultMethods<RequestType> requestValidationDefaultMethods;
 	
 	public RequestValidationImpl()
 	{
+		this.requestValidationDefaultMethods = new RequestValidationDefaultMethods<RequestType>();
 	}
 	
 	public void validateRequest(RequestType aRequest, ValidationErrorContainer aListContainer, ValidateRequestLogic<RequestType> overRide)

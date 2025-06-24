@@ -30,7 +30,7 @@ import springboot.dto.validation.exceptions.RequestValidationException;
 import springboot.entities.NotificationEntity;
 import springboot.errorHandling.helpers.ApiValidationError;
 import springboot.services.interfaces.Notification;
-import springboot.services.interfaces.RequestValidation;
+import springboot.services.validation.request.RequestValidationImpl;
 
 @RestController
 @RequestMapping(path="/rest/api")
@@ -39,12 +39,6 @@ public class NotificationController
 {
 	@Autowired
 	private Notification notificationService;
-	
-	@Autowired
-	private RequestValidation<CreateNotification> createNotificationValidation;
-
-	@Autowired
-	private RequestValidation<GetById> getByIdValidation;
 	
 	@Autowired
 	@Qualifier("requestValidationErrorsContainer")
@@ -59,7 +53,8 @@ public class NotificationController
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<Object> createNotification(@RequestBody CreateNotification data, HttpServletRequest request)
+	public ResponseEntity<Object> createNotification(@RequestBody CreateNotification data,
+		HttpServletRequest request,  @Autowired RequestValidationImpl<CreateNotification> createNotificationValidation)
 		throws RequestValidationException, DatabaseRowNotFoundException, AccessDeniedException
 	{
 		
@@ -130,7 +125,8 @@ public class NotificationController
 			path = "/v1/findByNotificationId",
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<Object> findByNotificationId(@RequestParam(required = true) String notificationId, HttpServletRequest request)
+	public ResponseEntity<Object> findByNotificationId(@RequestParam(required = true) String notificationId,
+		HttpServletRequest request, @Autowired RequestValidationImpl<GetById> getByIdValidation)
 		throws RequestValidationException, DatabaseRowNotFoundException, AccessDeniedException
 	{
 		
