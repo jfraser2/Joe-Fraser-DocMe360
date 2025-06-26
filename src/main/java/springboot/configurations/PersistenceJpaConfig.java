@@ -55,7 +55,7 @@ public class PersistenceJpaConfig
 	    vendorAdapter.setShowSql(true);
 	    vendorAdapter.setGenerateDdl(false);
 	    vendorAdapter.setPrepareConnection(true); // hibernate 5.1 or 5.2
-	    vendorAdapter.setDatabasePlatform("org.sqlite.hibernate.dialect.SQLiteDialect");
+	    vendorAdapter.setDatabasePlatform("org.hibernate.community.dialect.SQLiteDialect");
 	    
 	    emfb.setJpaProperties(additionalProperties());
 	    emfb.setJpaVendorAdapter(vendorAdapter);
@@ -99,7 +99,7 @@ public class PersistenceJpaConfig
 	    properties.setProperty("hibernate.ddl-auto", "none");
 //	    properties.setProperty("hibernate.ddl-auto", "create-drop");
 //	    properties.setProperty("hibernate.ddl-auto", "update");
-	    properties.setProperty("hibernate.dialect", "org.sqlite.hibernate.dialect.SQLiteDialect");
+	    properties.setProperty("hibernate.dialect", "org.hibernate.community.dialect.SQLiteDialect");
 	    properties.setProperty("hibernate.current_session_context_class", "thread");
 //	    <prop key="hibernate.current_session_context_class">org.hibernate.context.ThreadLocalSessionContext</prop>
 	    properties.setProperty("hibernate.format_sql", "true");
