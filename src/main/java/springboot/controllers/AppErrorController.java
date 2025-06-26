@@ -3,6 +3,7 @@ package springboot.controllers;
 
 import java.util.Map;
 
+import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -88,12 +89,17 @@ public class AppErrorController
     private Map<String, Object> getErrorAttributes(WebRequest request,
             boolean includeStackTrace)
     {
-    	return this.errorAttributes.getErrorAttributes(request,	includeStackTrace);
+    	ErrorAttributeOptions theOptions = null;
+    	if (includeStackTrace) {
+    		theOptions = ErrorAttributeOptions.of(ErrorAttributeOptions.Include.STACK_TRACE);
+    	}
+    	return this.errorAttributes.getErrorAttributes(request,	theOptions);
     }
     
     private HttpStatus getStatus(WebRequest request) {
+    	 
         Integer statusCode = (Integer) request
-                .getAttribute("javax.servlet.error.status_code", WebRequest.SCOPE_REQUEST);
+                .getAttribute("jakarta.servlet.error.status_code", WebRequest.SCOPE_REQUEST);
         if (statusCode != null) {
             try {
                 return HttpStatus.valueOf(statusCode);
@@ -104,14 +110,5 @@ public class AppErrorController
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }
     
-    /**
-     * Returns the path of the error page.
-     *
-     * @return the error path
-     */
-    @Override
-    public String getErrorPath() {
-        return "/error";
-    }   
     
 }

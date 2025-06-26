@@ -1,19 +1,15 @@
 package springboot.configurations;
 
-import java.io.File;
-import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.util.Properties;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.ValidationMode;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.ValidationMode;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -72,7 +68,7 @@ public class PersistenceJpaConfig
 	
 	@Bean(name="pooledDataSource")
 	public DataSource dataSource(){
-    	String appName = "VA-assessment";
+//    	String appName = "VA-assessment";
     	
 		DataSource aDataSource = buildTomcatPooledDataSource();
 //		System.out.println("in PersistenceJpaConfig AppName: " + appName + " env is: " + env.getActiveProfiles()[0]);

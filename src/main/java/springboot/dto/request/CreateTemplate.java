@@ -1,7 +1,7 @@
 package springboot.dto.request;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class CreateTemplate {
 	@NotBlank(message = "The template text must not be blank")
