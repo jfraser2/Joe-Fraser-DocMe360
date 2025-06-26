@@ -3,7 +3,7 @@ package springboot.autowire.helpers;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 
 import springboot.errorHandling.helpers.ApiValidationError;
 

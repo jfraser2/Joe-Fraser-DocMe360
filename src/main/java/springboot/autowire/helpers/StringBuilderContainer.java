@@ -1,6 +1,6 @@
 package springboot.autowire.helpers;
 
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 
 public class StringBuilderContainer {
 	
