@@ -1,6 +1,6 @@
 package springboot.entities;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Table(name = "Notifications")
 @Entity

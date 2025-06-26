@@ -4,7 +4,7 @@ import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Parameter;
 //import io.swagger.annotations.ApiImplicitParam;
 import springboot.autowire.helpers.StringBuilderContainer;
 import springboot.autowire.helpers.ValidationErrorContainer;
@@ -54,7 +55,7 @@ public class NotificationController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> createNotification(@RequestBody CreateNotification data,
-		HttpServletRequest request,  @Autowired RequestValidationService<CreateNotification> createNotificationValidation)
+		HttpServletRequest request,  @Parameter(hidden = true) @Autowired RequestValidationService<CreateNotification> createNotificationValidation)
 		throws RequestValidationException, DatabaseRowNotFoundException, AccessDeniedException
 	{
 		
@@ -126,7 +127,7 @@ public class NotificationController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> findByNotificationId(@RequestParam(required = true) String notificationId,
-		HttpServletRequest request, @Autowired RequestValidationService<GetById> getByIdValidation)
+		HttpServletRequest request, @Parameter(hidden = true) @Autowired RequestValidationService<GetById> getByIdValidation)
 		throws RequestValidationException, DatabaseRowNotFoundException, AccessDeniedException
 	{
 		

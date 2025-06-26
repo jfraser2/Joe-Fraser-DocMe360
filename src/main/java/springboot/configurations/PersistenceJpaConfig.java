@@ -1,19 +1,15 @@
 package springboot.configurations;
 
-import java.io.File;
-import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.util.Properties;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.ValidationMode;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.ValidationMode;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -59,7 +55,7 @@ public class PersistenceJpaConfig
 	    vendorAdapter.setShowSql(true);
 	    vendorAdapter.setGenerateDdl(false);
 	    vendorAdapter.setPrepareConnection(true); // hibernate 5.1 or 5.2
-	    vendorAdapter.setDatabasePlatform("org.sqlite.hibernate.dialect.SQLiteDialect");
+	    vendorAdapter.setDatabasePlatform("org.hibernate.community.dialect.SQLiteDialect");
 	    
 	    emfb.setJpaProperties(additionalProperties());
 	    emfb.setJpaVendorAdapter(vendorAdapter);
@@ -72,7 +68,7 @@ public class PersistenceJpaConfig
 	
 	@Bean(name="pooledDataSource")
 	public DataSource dataSource(){
-    	String appName = "VA-assessment";
+//    	String appName = "VA-assessment";
     	
 		DataSource aDataSource = buildTomcatPooledDataSource();
 //		System.out.println("in PersistenceJpaConfig AppName: " + appName + " env is: " + env.getActiveProfiles()[0]);
@@ -103,7 +99,7 @@ public class PersistenceJpaConfig
 	    properties.setProperty("hibernate.ddl-auto", "none");
 //	    properties.setProperty("hibernate.ddl-auto", "create-drop");
 //	    properties.setProperty("hibernate.ddl-auto", "update");
-	    properties.setProperty("hibernate.dialect", "org.sqlite.hibernate.dialect.SQLiteDialect");
+	    properties.setProperty("hibernate.dialect", "org.hibernate.community.dialect.SQLiteDialect");
 	    properties.setProperty("hibernate.current_session_context_class", "thread");
 //	    <prop key="hibernate.current_session_context_class">org.hibernate.context.ThreadLocalSessionContext</prop>
 	    properties.setProperty("hibernate.format_sql", "true");

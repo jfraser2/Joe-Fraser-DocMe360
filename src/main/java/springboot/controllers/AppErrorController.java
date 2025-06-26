@@ -3,6 +3,7 @@ package springboot.controllers;
 
 import java.util.Map;
 
+import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -44,10 +45,10 @@ public class AppErrorController
         	 *  answer 37 for site - https://stackoverflow.com/questions/10883211/deadly-cors-when-http-localhost-is-the-origin
         	 *  Add a Chrome Extension Allow-Control-Allow-Origin: * 
         	 *  Extension Url is: https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en<br/>
-        	 *  In the extension add the URL to swagger: http://localhost:8080/swagger-ui.html
+        	 *  In the extension add the URL to swagger: http://localhost:8080/swagger-ui/index.html
         	 * 
         	 */
-        	if (path.contains("swagger-ui.html"))
+        	if (path.contains("/swagger-ui/index.html"))
         	{
         		StringBuilder outString = new StringBuilder("");
         		outString.append("<p>");
@@ -59,7 +60,7 @@ public class AppErrorController
         		outString.append("Alternatively you can add an Extension to Chrome<br/>");
         		outString.append("The Name is Access-Control-Allow-Origin<br/>");
         		outString.append("The URL is https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en<br/>");
-        		outString.append("In the extension add the URL to swagger: http://localhost:8080/swagger-ui.html<br/>");
+        		outString.append("In the extension add the URL to swagger: http://localhost:8080/swagger-ui/index.html<br/>");
         		outString.append("</p>");
             	aResponse = new ResponseEntity<>(outString.toString(), status);
         		outString = null;
@@ -88,12 +89,19 @@ public class AppErrorController
     private Map<String, Object> getErrorAttributes(WebRequest request,
             boolean includeStackTrace)
     {
-    	return this.errorAttributes.getErrorAttributes(request,	includeStackTrace);
+    		ErrorAttributeOptions theOptions = null;
+    		if (includeStackTrace) {
+    			theOptions = ErrorAttributeOptions.of(ErrorAttributeOptions.Include.STACK_TRACE);
+    		} else {
+    			theOptions = ErrorAttributeOptions.of(ErrorAttributeOptions.Include.MESSAGE);
+    		}
+    		return this.errorAttributes.getErrorAttributes(request,	theOptions);
     }
     
     private HttpStatus getStatus(WebRequest request) {
+    	 
         Integer statusCode = (Integer) request
-                .getAttribute("javax.servlet.error.status_code", WebRequest.SCOPE_REQUEST);
+                .getAttribute("jakarta.servlet.error.status_code", WebRequest.SCOPE_REQUEST);
         if (statusCode != null) {
             try {
                 return HttpStatus.valueOf(statusCode);
@@ -104,14 +112,5 @@ public class AppErrorController
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }
     
-    /**
-     * Returns the path of the error page.
-     *
-     * @return the error path
-     */
-    @Override
-    public String getErrorPath() {
-        return "/error";
-    }   
     
 }

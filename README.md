@@ -60,11 +60,11 @@ You cannot use the command until DockerDesktop is running
 
 #Swagger Testing after Boot
 fav Browser url, I use google chrome<br/>
-http://localhost:8080/swagger-ui.html
+http://localhost:8080/swagger-ui/index.html
 
 #Swagger check
 fav Browser url, I use google chrome<br/>
-http://localhost:8080/v2/api-docs
+http://localhost:8080/v3/api-docs
 
 
 
