@@ -47,17 +47,12 @@ public class OpenApiConfig {
 //        License apacheLicense = new License().name("Apache License Version 2.0").url("https://www.apache.org/licenses/LICENSE-2.0");        
         
         Info info = new Info()
-            .title("Tutorial Management API")
+            .title("Available REST Services")
             .version("1.0.0")
             .contact(aContact)
             .description(descriptionText)
 //            .termsOfService("https://www.bezkoder.com/terms")
             .license(mitLicense);
-        
-//        Paths apisToDisplay = new Paths();
-//        PathItem restApis = 
-//        .apis(RequestHandlerSelectors.basePackage("springboot.controllers.rest"))
-        
         
         return new OpenAPI().info(info).servers(List.of(devServer));    	
     	
