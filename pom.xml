@@ -157,7 +157,7 @@
     			<artifactId>hibernate-community-dialects</artifactId>
 		</dependency>        
 		
-<!-- jarkarta.validation -->
+<!-- jakarta.validation -->
     	<dependency>
         	<groupId>org.springframework.boot</groupId>
         	<artifactId>spring-boot-starter-validation</artifactId>

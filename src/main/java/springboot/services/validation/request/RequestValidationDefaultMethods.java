@@ -10,6 +10,7 @@ import jakarta.validation.ValidatorFactory;
 
 import springboot.services.validation.request.interfaces.functional.ValidateRequestLogic;
 
+//uses java generics
 public class RequestValidationDefaultMethods<RequestType>
 {
 	private final ValidateRequestLogic<RequestType> defaultValidateRequest = (aRequest, aListContainer) ->
