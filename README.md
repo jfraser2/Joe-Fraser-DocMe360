@@ -42,27 +42,28 @@ The Design constraints are the App will build in Docker and can run in Docker<br
 or can run without Docker. These constraints have been meet.<br/>
  
 #Example Java Location
-C:\Program Files\Java\jdk1.8.0_241\bin<br/>
+C:\Program Files\Java\jdk-17\bin<br/>
 
 
 #Example Command Line Project Boot(Do this third)
 open your fav Windows Shell Instance(Command Prompt Instance)<br/>
-cd c:\work\java\eclipse-workspace\VA-assessment<br/>
-"C:\Program Files\Java\jdk1.8.0_241\bin\java" -Dfile.encoding=UTF-8 -Dspring.profiles.active=dev -jar target/VA-assessment-0.0.1-SNAPSHOT.jar
+cd c:\work\java\eclipse-workspace2\VA-assessment<br/>
+"C:\Program Files\Java\jdk-17\bin\java" -Dfile.encoding=UTF-8 -Dspring.profiles.active=dev -jar target/VA-assessment-0.0.1-SNAPSHOT.jar
 
 #Docker Information for Project Boot
 I put the files docker-compose.yml and Dockerfile into the project<br/>
-It is now working, and tested. Enter <br/>
-"docker compose up" from the command line, in the windows project folder.<br/>
+It is now working, and tested. <br/>
+Enter "docker compose up" from the command line, in the windows project folder.<br/>
 The "docker compose up" only compiles and deploys code. No worries about multiple runs.<br/>
-The files now perform a compile inside Docker<br/>
+The va.db database in the DockerDesktop Volume is not touched.<br/>
+The files now perform a compile inside Docker with Java version 17<br/>
 You cannot use the command until DockerDesktop is running
 
-#Swagger Testing after Boot
+#Swagger Testing(Version 3) after Boot
 fav Browser url, I use google chrome<br/>
 http://localhost:8080/swagger-ui/index.html
 
-#Swagger check
+#Swagger check(Version 3) 
 fav Browser url, I use google chrome<br/>
 http://localhost:8080/v3/api-docs
 
