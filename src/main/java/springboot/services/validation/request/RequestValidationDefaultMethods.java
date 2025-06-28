@@ -11,9 +11,9 @@ import jakarta.validation.ValidatorFactory;
 import springboot.services.validation.request.interfaces.functional.ValidateRequestLogic;
 
 //uses java generics
-public class RequestValidationDefaultMethods<RequestType>
+public abstract class RequestValidationDefaultMethods<RequestType>
 {
-	private final ValidateRequestLogic<RequestType> defaultValidateRequest = (aRequest, aListContainer) ->
+	protected final ValidateRequestLogic<RequestType> defaultValidateRequest = (aRequest, aListContainer) ->
 	{
 		// Since it is AutoWired clear the List before you use it
 		aListContainer.clearValidationErrors();
@@ -43,12 +43,7 @@ public class RequestValidationDefaultMethods<RequestType>
 		return;
 	};
 	
-	public RequestValidationDefaultMethods()
-	{
-		
-	}
-	
-	public ValidateRequestLogic<RequestType> getDefaultValidateRequest()
+	protected ValidateRequestLogic<RequestType> getDefaultValidateRequest()
 	{
 		return this.defaultValidateRequest;
 	}
