@@ -16,3 +16,6 @@ docker stop dummy
 
 #Stored Data Info
 >docker volume inspect joeFraserDataSQLite
+
+#House Keeping
+you may now delete the temporary alpine image
