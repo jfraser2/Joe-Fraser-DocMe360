@@ -1,6 +1,5 @@
 package springboot.controllers.rest;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -73,6 +72,7 @@ public abstract class ControllerBase
 		
 	}
 	
+/*	
 	private String convertListToJson(List<Object> anObjectList)
 	{
 		String jsonString = null;
@@ -92,6 +92,7 @@ public abstract class ControllerBase
 		return jsonString;
 		
 	}
+*/
 	
 	private String convertListToJsonNoPrettyPrint(List<Object> anObjectList)
 	{
@@ -129,13 +130,11 @@ public abstract class ControllerBase
 		catch(JsonProcessingException jpe)
 		{
 			outputString = null;
-		} catch (IOException e) {
-			outputString = null;
 		}
-		
 		return outputString;
 	}
-
+	
+/*
 	private String convertToJsonPrettyPrint(Object anObject)
 	{
 		String jsonString = null;
@@ -156,6 +155,7 @@ public abstract class ControllerBase
 		
 		return jsonString;
 	}
+*/
 	
 	private String convertToJsonNoPrettyPrint(Object anObject)
 	{
@@ -251,8 +251,14 @@ public abstract class ControllerBase
 		// support CORS
 //		System.out.println("Access-Control-Allow-Origin is: " + request.getHeader("Origin"));
 		HttpHeaders aResponseHeader = new HttpHeaders();
-		aResponseHeader.add("Access-Control-Allow-Origin", request.getHeader("Origin"));
-//		aResponseHeader.add("Access-Control-Allow-Origin", "*");
+		
+		if (null != request) {
+			String tempOrigin = request.getHeader("Origin");
+			if (null != tempOrigin && tempOrigin.length() > 0) {
+				aResponseHeader.add("Access-Control-Allow-Origin", tempOrigin);
+			}	
+//			aResponseHeader.add("Access-Control-Allow-Origin", "*");
+		}
 		aResponseHeader.add("Content-Type", "application/json");
 		
 		return aResponseHeader;

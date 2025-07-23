@@ -1,0 +1,23 @@
+<configuration>
+
+    <!-- always a good activate OnConsoleStatusListener -->
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+
+    <appender name="ConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>
+                %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </encoder>
+    </appender>
+
+  <!-- logback severity order from least to most ALL < TRACE < DEBUG < INFO < WARN < ERROR < OFF -->
+  <!-- it will also capture messages at all levels that are considered more severe than that configured level -->
+
+  <!--  the Root logger is intended to catch any log that does not match a specific logger -->
+  <!-- So it should always be listed last. anything above root should have additivity="false" -->
+  <!-- Or you will get double logs. The reason this is here is for  other peoples code --> 
+    <root level="info">
+        <appender-ref ref="ConsoleAppender"/>
+    </root>
+</configuration>

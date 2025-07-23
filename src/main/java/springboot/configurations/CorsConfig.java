@@ -21,7 +21,7 @@ public class CorsConfig
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-            	System.out.println("Set Up Cors for Angular");
+//            	System.out.println("Set Up Cors for Angular");
             	// Angular Testing from AngularIDE or localhost(manual from a Browser)
             	// Support for CRUD
             	
@@ -32,7 +32,7 @@ public class CorsConfig
                  	.exposedHeaders("Content-Type", "Content-Range", "Access-Control-Allow-Origin")   // headers for the response does not support wildcards
                  	.allowCredentials(false);  
                 
-            	System.out.println("Set Up Cors for Swagger");
+//            	System.out.println("Set Up Cors for Swagger");
             	// Mapping for Swagger Testing
             	// Support for CRUD
             	
