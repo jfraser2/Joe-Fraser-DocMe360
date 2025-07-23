@@ -39,6 +39,8 @@ import springboot.errorHandling.helpers.ApiError;
 public class RequestValidationAdvice
 	extends  ResponseEntityExceptionHandler 
 {
+	protected static final String UNEXPECTED_PROCESSING_ERROR = "{\"message\": \"Object could not convert to json\"}";
+
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(
 		HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request)
@@ -141,7 +143,7 @@ public class RequestValidationAdvice
 		}
 		catch(JsonProcessingException jpe)
 		{
-			json = null;
+			json = UNEXPECTED_PROCESSING_ERROR;
 		}
 		
 		return json;
@@ -152,8 +154,14 @@ public class RequestValidationAdvice
 		// support CORS
 //		System.out.println("Access-Control-Allow-Origin is: " + request.getHeader("Origin"));
 		HttpHeaders aResponseHeader = new HttpHeaders();
-		aResponseHeader.add("Access-Control-Allow-Origin", request.getHeader("Origin"));
-//		aResponseHeader.add("Access-Control-Allow-Origin", "*");
+		
+		if (null != request) {
+			String tempOrigin = request.getHeader("Origin");
+			if (null != tempOrigin && tempOrigin.length() > 0) {
+				aResponseHeader.add("Access-Control-Allow-Origin", tempOrigin);
+			}	
+//			aResponseHeader.add("Access-Control-Allow-Origin", "*");
+		}
 		aResponseHeader.add("Content-Type", "application/json");
 		
 		return aResponseHeader;

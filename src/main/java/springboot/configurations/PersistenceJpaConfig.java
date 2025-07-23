@@ -82,7 +82,7 @@ public class PersistenceJpaConfig
 	    JpaTransactionManager transactionManager = new JpaTransactionManager();
 	    transactionManager.setEntityManagerFactory(emf);
 	    
-	    System.out.println(" in transactionManager Object is: " + emf.toString());
+//	    System.out.println(" in transactionManager Object is: " + emf.toString());
 	 
 	    return transactionManager;
 	}
@@ -165,7 +165,7 @@ public class PersistenceJpaConfig
 		}
 		catch (Exception e)
 		{
-			System.out.println("Create Pool Failed!!!");
+//			System.out.println("Create Pool Failed!!!");
 			aDataSource = null;
 		}
 		

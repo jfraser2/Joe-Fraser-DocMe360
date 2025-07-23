@@ -38,7 +38,7 @@ public class ListApiValidationErrorConverter
 		}
 		catch (IOException ioe)
 		{
-			System.out.println("Couldn't Serialize Array");
+//			System.out.println("Couldn't Serialize Array");
 		}
 		return;
 	}
