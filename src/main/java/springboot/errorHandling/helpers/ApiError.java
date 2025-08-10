@@ -1,7 +1,8 @@
 package springboot.errorHandling.helpers;
 
-//import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -13,9 +14,9 @@ public class ApiError
 {
 	private HttpStatus status;
 	   
-	@JsonSerialize(using = DateConverter.class)
+	@JsonSerialize(using = ZonedDateTimeConverter.class)
 //	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy HH:mm:ss")
-	private Date timestamp;
+	private ZonedDateTime timestamp;
 	   
 	private String message;
 	private String debugMessage;
@@ -23,7 +24,10 @@ public class ApiError
 	private List<ApiValidationError> subErrors;
 
 	public ApiError() {
-		setTimestamp(new Date());
+	    Instant instant = Instant.now(); // Current instant from London(Greenwich)
+	    ZoneId zoneId = ZoneId.of("America/Chicago");
+	    ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(instant, zoneId);
+		setTimestamp(zonedDateTime);
 	}
 
 	public HttpStatus getStatus() {
@@ -58,11 +62,11 @@ public class ApiError
 		this.subErrors = subErrors;
 	}
 
-	public Date getTimestamp() {
+	public ZonedDateTime getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(ZonedDateTime timestamp) {
 		this.timestamp = timestamp;
 	}
 	   
