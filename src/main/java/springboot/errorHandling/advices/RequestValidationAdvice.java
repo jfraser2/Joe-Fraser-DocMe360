@@ -14,10 +14,12 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import springboot.dto.validation.exceptions.DatabaseRowNotFoundException;
+import springboot.dto.validation.exceptions.EmptyListException;
 import springboot.dto.validation.exceptions.RequestValidationException;
 import springboot.enums.MapperEnum;
 import springboot.errorHandling.helpers.ApiError;
@@ -56,7 +58,7 @@ public class RequestValidationAdvice
 		String json = convertApiErrorToJson(apiError);
 		apiError = null;
 		
-	    return buildResponseEntity(json, HttpStatus.OK, request);
+	    return buildResponseEntity(json, HttpStatus.BAD_REQUEST, request);
 	}
 
 	//other exception handlers or handler overrides below
@@ -89,7 +91,7 @@ public class RequestValidationAdvice
 		String json = convertApiErrorToJson(apiError);
 		apiError = null;
         
-        return buildResponseEntity(json, HttpStatus.OK, request);
+        return buildResponseEntity(json, HttpStatus.BAD_REQUEST, request);
     }
     
     @ExceptionHandler(DatabaseRowNotFoundException.class)
@@ -97,13 +99,35 @@ public class RequestValidationAdvice
     	DatabaseRowNotFoundException ex, WebRequest request)
     {
 		ApiError apiError = new ApiError();
-		apiError.setStatus(HttpStatus.NO_CONTENT);
+		apiError.setStatus(HttpStatus.NOT_FOUND);
 		
         apiError.setMessage(ex.getMessage());
         
 		String json = convertApiErrorToJson(apiError);
 		apiError = null;
         
+        return buildResponseEntity(json, HttpStatus.NOT_FOUND, request);
+    }
+    
+    @ExceptionHandler(EmptyListException.class)
+    public ResponseEntity<Object> handleEmptyListException(
+    	EmptyListException ex, WebRequest request)
+    {
+    	String json = null;
+        String rawJson = "{\"status\": \"OK\"," + "\"" + ex.getClassName() + "\": []}";
+		try {
+			ObjectMapper mapper = MapperEnum.INSTANCE.getObjectMapper();			
+			if (null != rawJson)
+			{
+				JsonNode rootNode = mapper.readTree(rawJson);
+				json = rootNode.toPrettyString();
+			}
+		}
+		catch(JsonProcessingException jpe)
+		{
+			json = null;
+		}
+		
         return buildResponseEntity(json, HttpStatus.OK, request);
     }
     
@@ -121,7 +145,7 @@ public class RequestValidationAdvice
 		String json = convertApiErrorToJson(apiError);
 		apiError = null;
         
-        return buildResponseEntity(json, HttpStatus.OK, request);
+        return buildResponseEntity(json, HttpStatus.BAD_REQUEST, request);
     }
 	 
 	private ResponseEntity<Object> buildResponseEntity(String json, HttpStatus aStatus, WebRequest request)
