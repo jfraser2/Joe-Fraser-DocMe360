@@ -27,6 +27,7 @@ import springboot.dto.request.GetById;
 import springboot.dto.response.NonModelAdditionalFields;
 import springboot.dto.validation.exceptions.BuildNotificationException;
 import springboot.dto.validation.exceptions.DatabaseRowNotFoundException;
+import springboot.dto.validation.exceptions.EmptyListException;
 import springboot.dto.validation.exceptions.RequestValidationException;
 import springboot.entities.NotificationEntity;
 import springboot.errorHandling.helpers.ApiValidationError;
@@ -100,7 +101,7 @@ public class NotificationController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> allNotifications(HttpServletRequest request)
-		throws DatabaseRowNotFoundException, AccessDeniedException
+		throws EmptyListException, AccessDeniedException
 	{
 		
 		List<NotificationEntity> aList = notificationService.findAll();
@@ -110,7 +111,7 @@ public class NotificationController
 		}
 		
 		if(isEmpty) {
-			throw new DatabaseRowNotFoundException("Notification Table is empty.");
+			throw new EmptyListException("Notification Table is empty.", "NotificationEntity");
 		}
 		
 		List<Object> objectList = new ArrayList<Object>(aList);

@@ -25,6 +25,7 @@ import springboot.dto.request.CreateTemplate;
 import springboot.dto.request.GetById;
 import springboot.dto.request.UpdateTemplate;
 import springboot.dto.validation.exceptions.DatabaseRowNotFoundException;
+import springboot.dto.validation.exceptions.EmptyListException;
 import springboot.dto.validation.exceptions.RequestValidationException;
 import springboot.entities.TemplateEntity;
 import springboot.errorHandling.helpers.ApiValidationError;
@@ -86,7 +87,7 @@ public class TemplateController
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Object> allTemplates(HttpServletRequest request)
-		throws DatabaseRowNotFoundException, AccessDeniedException
+		throws EmptyListException, AccessDeniedException
 	{
 		
 		List<TemplateEntity> aList = templateService.findAll();
@@ -96,7 +97,7 @@ public class TemplateController
 		}
 		
 		if (isEmpty) {
-			throw new DatabaseRowNotFoundException("Template Table is empty.");
+			throw new EmptyListException("Template Table is empty.", "TemplateEntity");
 		}
 		
 		List<Object> objectList = new ArrayList<Object>(aList);
