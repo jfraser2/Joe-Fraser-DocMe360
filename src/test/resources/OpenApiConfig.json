@@ -57,6 +57,16 @@
 								}
 							}
 						}
+					},
+					"403": {
+						"description": "FORBIDDEN",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
 					}
 				}
 			}
@@ -90,6 +100,16 @@
 					},
 					"400": {
 						"description": "BAD_REQUEST",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "FORBIDDEN",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -148,6 +168,16 @@
 							}
 						}
 					},
+					"403": {
+						"description": "FORBIDDEN",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
 					"404": {
 						"description": "NOT_FOUND",
 						"content": {
@@ -190,6 +220,16 @@
 					},
 					"400": {
 						"description": "BAD_REQUEST",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "FORBIDDEN",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -248,6 +288,16 @@
 							}
 						}
 					},
+					"403": {
+						"description": "FORBIDDEN",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
 					"404": {
 						"description": "NOT_FOUND",
 						"content": {
@@ -277,6 +327,16 @@
 								}
 							}
 						}
+					},
+					"403": {
+						"description": "FORBIDDEN",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
 					}
 				}
 			}
@@ -290,6 +350,16 @@
 				"responses": {
 					"200": {
 						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "FORBIDDEN",
 						"content": {
 							"application/json": {
 								"schema": {

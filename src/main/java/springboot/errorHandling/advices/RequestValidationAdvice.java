@@ -76,7 +76,7 @@ public class RequestValidationAdvice
 		String json = convertApiErrorToJson(apiError);
 		apiError = null;
         
-        return buildResponseEntity(json, HttpStatus.OK, request);
+        return buildResponseEntity(json, HttpStatus.FORBIDDEN, request);
     }
 	
     @ExceptionHandler(IllegalArgumentException.class)
