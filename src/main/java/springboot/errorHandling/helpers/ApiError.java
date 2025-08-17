@@ -12,7 +12,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class ApiError
 {
-	private HttpStatus status;
+	@JsonSerialize(using = HttpStatusConverter.class)
+	private HttpStatus requestStatus;
 	   
 	@JsonSerialize(using = ZonedDateTimeConverter.class)
 //	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy HH:mm:ss")
@@ -30,12 +31,12 @@ public class ApiError
 		setTimestamp(zonedDateTime);
 	}
 
-	public HttpStatus getStatus() {
-		return status;
+	public HttpStatus getRequestStatus() {
+		return requestStatus;
 	}
 
-	public void setStatus(HttpStatus status) {
-		this.status = status;
+	public void setRequestStatus(HttpStatus status) {
+		this.requestStatus = status;
 	}
 
 	public String getMessage() {
