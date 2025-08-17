@@ -458,7 +458,8 @@
 						"type": "string"
 					},
 					"timestamp": {
-						"type": "string"
+						"type": "string",
+						"format": "date-time"
 					},
 					"message": {
 						"type": "string"
