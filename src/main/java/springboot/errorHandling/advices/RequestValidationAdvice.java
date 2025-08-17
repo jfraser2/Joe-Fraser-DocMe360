@@ -51,7 +51,7 @@ public class RequestValidationAdvice
 		
 		String error = "Malformed JSON request";
 		
-		apiError.setStatus(HttpStatus.BAD_REQUEST);
+		apiError.setRequestStatus(HttpStatus.BAD_REQUEST);
 		apiError.setMessage(error);
 		apiError.setDebugMessage(ex.getLocalizedMessage());
 		
@@ -68,7 +68,7 @@ public class RequestValidationAdvice
     		AccessDeniedException ex, WebRequest request)
     {
 		ApiError apiError = new ApiError();
-		apiError.setStatus(HttpStatus.FORBIDDEN);
+		apiError.setRequestStatus(HttpStatus.FORBIDDEN);
     	
  		String error = ex.getMessage();
         apiError.setMessage(error);
@@ -84,7 +84,7 @@ public class RequestValidationAdvice
     		IllegalArgumentException ex, WebRequest request)
     {
 		ApiError apiError = new ApiError();
-		apiError.setStatus(HttpStatus.BAD_REQUEST);
+		apiError.setRequestStatus(HttpStatus.BAD_REQUEST);
 		
         apiError.setMessage(ex.getMessage());
         
@@ -99,7 +99,7 @@ public class RequestValidationAdvice
     	DatabaseRowNotFoundException ex, WebRequest request)
     {
 		ApiError apiError = new ApiError();
-		apiError.setStatus(HttpStatus.NOT_FOUND);
+		apiError.setRequestStatus(HttpStatus.NOT_FOUND);
 		
         apiError.setMessage(ex.getMessage());
         
@@ -114,7 +114,7 @@ public class RequestValidationAdvice
     	EmptyListException ex, WebRequest request)
     {
     	String json = null;
-        String rawJson = "{\"status\": \"OK\"," + "\"" + ex.getClassName() + "\": []}";
+        String rawJson = "{\"requestStatus\": \"OK\"," + "\"" + ex.getClassName() + "\": []}";
 		try {
 			ObjectMapper mapper = MapperEnum.INSTANCE.getObjectMapper();			
 			if (null != rawJson)
@@ -136,7 +136,7 @@ public class RequestValidationAdvice
     	RequestValidationException ex, WebRequest request)
     {
 		ApiError apiError = new ApiError();
-		apiError.setStatus(HttpStatus.BAD_REQUEST);
+		apiError.setRequestStatus(HttpStatus.BAD_REQUEST);
 		
 		String error = "Validation errors";
         apiError.setMessage(error);

@@ -454,7 +454,7 @@
 			"ApiError": {
 				"type": "object",
 				"properties": {
-					"status": {
+					"requestStatus": {
 						"type": "string"
 					},
 					"timestamp": {

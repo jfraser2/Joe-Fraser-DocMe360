@@ -2,7 +2,7 @@ package springboot.dto.response;
 
 public class ResultStatus {
 	
-	private String status;
+	private String requestStatus;
 	
 	public ResultStatus() {
 		
@@ -10,15 +10,15 @@ public class ResultStatus {
 
 	public ResultStatus(String status) {
 		super();
-		this.status = status;
+		this.requestStatus = status;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getRequestStatus() {
+		return requestStatus;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setRequestStatus(String status) {
+		this.requestStatus = status;
 	}
 
 	
