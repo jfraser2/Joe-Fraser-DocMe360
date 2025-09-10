@@ -8,6 +8,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
+import springboot.enums.ZonedDateTimeEnum;
+
 public class ZonedDateTimeConverter
 	extends JsonSerializer<ZonedDateTime>
 {
@@ -18,8 +20,9 @@ public class ZonedDateTimeConverter
 	{
 		if (null != value)
 		{
-            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss z (XXX)");
-            String zonedDateTimeAsString = value.format(formatter1);
+//            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern(ZonedDateTimeEnum.INSTANCE.DATE_FORMAT3);
+//            String zonedDateTimeAsString = value.format(formatter1);
+			String zonedDateTimeAsString = ZonedDateTimeEnum.INSTANCE.writeDateString(value, ZonedDateTimeEnum.INSTANCE.DATE_FORMAT3);
             
 			jgen.writeString(zonedDateTimeAsString);
 		}
