@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 //import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import springboot.enums.ZonedDateTimeEnum;
+
 public class ApiError
 {
 	@JsonSerialize(using = HttpStatusConverter.class)
@@ -25,9 +27,7 @@ public class ApiError
 	private List<ApiValidationError> subErrors;
 
 	public ApiError() {
-	    Instant instant = Instant.now(); // Current instant from London(Greenwich)
-	    ZoneId zoneId = ZoneId.of("America/Chicago");
-	    ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(instant, zoneId);
+	    ZonedDateTime zonedDateTime = ZonedDateTimeEnum.INSTANCE.now();
 		setTimestamp(zonedDateTime);
 	}
 
