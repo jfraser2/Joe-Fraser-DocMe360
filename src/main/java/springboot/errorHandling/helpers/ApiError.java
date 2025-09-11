@@ -29,6 +29,11 @@ public class ApiError
 		setTimestamp(zonedDateTime);
 	}
 
+	public ApiError(String zoneIdName) {
+	    ZonedDateTime zonedDateTime = ZonedDateTimeEnum.INSTANCE.now(zoneIdName);
+		setTimestamp(zonedDateTime);
+	}
+	
 	public HttpStatus getRequestStatus() {
 		return requestStatus;
 	}
